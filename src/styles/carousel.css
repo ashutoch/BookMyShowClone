@@ -25,3 +25,45 @@
 .slick-dots li.slick-active button:before {
   color: #e11d48;
 }
+
+/* ── Critical mobile fixes ── */
+
+/* Force slides to respect their computed width and never overflow */
+.slick-slide {
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* The inner div slick wraps each slide in */
+.slick-slide > div {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* The slick track should never exceed the list width */
+.slick-list {
+  overflow: hidden;
+}
+
+.slick-track {
+  display: flex !important;
+  align-items: stretch;
+}
+
+.slick-track .slick-slide {
+  height: auto;
+  display: flex !important;
+  flex-direction: column;
+}
+
+.slick-track .slick-slide > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.slick-track .slick-slide > div > div {
+  flex: 1;
+  min-width: 0;
+}

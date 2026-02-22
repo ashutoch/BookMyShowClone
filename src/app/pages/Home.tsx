@@ -4,15 +4,9 @@ import { MovieCard } from '../components/MovieCard';
 import { EventCard } from '../components/EventCard';
 import { SportCard } from '../components/SportCard';
 import { movies, events, sports } from '../data/moviesData';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 
 export default function Home() {
   const navigate = useNavigate();
-  const featuredBanners = [
-    'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1200',
-    'https://images.unsplash.com/photo-1616530940355-351fabd9524b?w=1200',
-    'https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=1200'
-  ];
 
   return (
     <div className="min-h-screen">
@@ -45,27 +39,22 @@ export default function Home() {
         {/* Recommended Movies */}
         <Carousel title="Recommended Movies" showAll={() => navigate('/movies')}>
           {movies.slice(0, 6).map(movie => (
-            <div key={movie.id} className="px-2">
-              <MovieCard movie={movie} />
-            </div>
+            // ✅ No extra wrapping div — Carousel handles padding internally
+            <MovieCard key={movie.id} movie={movie} />
           ))}
         </Carousel>
 
         {/* Upcoming Events */}
         <Carousel title="Upcoming Events" showAll={() => navigate('/events')}>
           {events.map(event => (
-            <div key={event.id} className="px-2">
-              <EventCard event={event} />
-            </div>
+            <EventCard key={event.id} event={event} />
           ))}
         </Carousel>
 
         {/* Sports Activities */}
         <Carousel title="Sports & Activities" showAll={() => navigate('/sports')}>
           {sports.map(sport => (
-            <div key={sport.id} className="px-2">
-              <SportCard sport={sport} />
-            </div>
+            <SportCard key={sport.id} sport={sport} />
           ))}
         </Carousel>
 

@@ -34,45 +34,47 @@ function PrevArrow(props: any) {
 
 export function Carousel({ children, title, showAll }: CarouselProps) {
   const settings = {
-  dots: false,
-  infinite: true,
-  speed: 400,
-  slidesToShow: 5,
-  slidesToScroll: 2,
-  arrows: true,
-  responsive: [
-    {
-      breakpoint: 1280,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 2,
+    dots: false,
+    infinite: true,
+    speed: 400,
+    slidesToShow: 5,
+    slidesToScroll: 2,
+    arrows: true,
+    nextArrow: <NextArrow />,   // ← wire up custom arrows
+    prevArrow: <PrevArrow />,   // ← wire up custom arrows
+    responsive: [
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 2,
+        }
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2.2,
+          slidesToScroll: 1,
+          arrows: false,
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1.3,
+          slidesToScroll: 1,
+          arrows: false,
+        }
       }
-    },
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-      }
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 2.2,
-        slidesToScroll: 1,
-        arrows: false,
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1.3,
-        slidesToScroll: 1,
-        arrows: false,
-      }
-    }
-  ]
-};
+    ]
+  };
 
   return (
     <div className="mb-10">
@@ -89,7 +91,8 @@ export function Carousel({ children, title, showAll }: CarouselProps) {
           )}
         </div>
       )}
-      <div className="relative w-full overflow-hidden">
+      {/* Changed overflow-hidden → overflow-visible so arrows aren't clipped */}
+      <div className="relative w-full overflow-visible">
         <Slider {...settings}>
           {React.Children.map(children, (child) => (
             <div className="px-2 box-border">{child}</div>
