@@ -3,7 +3,6 @@ import { FilterSidebar } from '../components/FilterSidebar';
 import { SportCard } from '../components/SportCard';
 import { Carousel } from '../components/Carousel';
 import { sports, sportCategories } from '../data/moviesData';
-import { ChevronRight } from 'lucide-react';
 
 export default function Sports() {
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
@@ -29,20 +28,10 @@ export default function Sports() {
     setSelectedCategories([]);
   };
 
-  const selectedCity = localStorage.getItem('selectedCity') || 'Bhubaneswar';
-
   return (
     <div className="max-w-[1400px] mx-auto px-4 py-6">
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-        <span>Home</span>
-        <ChevronRight size={16} />
-        <span className="text-gray-900 font-medium">Sports in {selectedCity}</span>
-      </div>
-
       {/* Category Filter Row */}
       <div className="mb-6 pb-4 border-b">
-        <h2 className="text-2xl font-bold mb-4">Sports in {selectedCity}</h2>
         <div className="flex items-center gap-2 flex-wrap">
           {sportCategories.map(category => (
             <button

@@ -357,7 +357,7 @@ export const events: Event[] = [
     date: 'Sun, 2 Mar',
     price: 250,
     category: 'Dance',
-    imageUrl: 'https://images.unsplash.com/photo-1517697471339-4aa32003c11a?w=800&q=80',
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVAtCkEA41oRoG58tVuCx8pBs0bjOAdgolog&s',
     languages: ['Odia']
   },
   {
@@ -377,7 +377,7 @@ export const events: Event[] = [
     date: 'Sun, 23 Mar',
     price: 199,
     category: 'Dance',
-    imageUrl: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&q=80',
+    imageUrl: 'https://t3.ftcdn.net/jpg/03/65/13/52/360_F_365135250_D4slgOo8wAYADnqNvaMtR9hIu17ySXmV.jpg',
     languages: ['Tamil', 'Hindi']
   },
   {
@@ -398,7 +398,7 @@ export const events: Event[] = [
     date: 'Sat, 4 Apr',
     price: 699,
     category: 'Concerts',
-    imageUrl: 'https://images.unsplash.com/photo-1501386761578-eaa54b4d3bb0?w=800&q=80',
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZSI4gSh_SqzhKM3CHZcCIK_9J7tv49fR1lg&s',
     languages: ['Hindi']
   },
   {
@@ -452,7 +452,7 @@ export const plays: Play[] = [
     date: 'Sun, 6 Apr',
     price: 599,
     category: 'Musical',
-    imageUrl: 'https://images.unsplash.com/photo-1501386761578-eaa54b4d3bb0?w=800&q=80',
+    imageUrl: 'https://media.istockphoto.com/id/488380476/vector/rama-killing-ravana-in-happy-dussehra.jpg?s=612x612&w=0&k=20&c=xxOBHM6k8rO7qAn4lhwAOEMrmJuBe_K_I-lU8q4vVJc=',
     languages: ['Hindi', 'Sanskrit'],
     duration: '3h'
   },
@@ -475,7 +475,7 @@ export const plays: Play[] = [
     date: 'Sun, 9 Mar',
     price: 349,
     category: 'Hindi Theatre',
-    imageUrl: 'https://images.unsplash.com/photo-1548438294-1ad5d5f4f063?w=800&q=80',
+    imageUrl: 'https://substackcdn.com/image/fetch/$s_!GZQn!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3c70b50a-9646-4ba2-89ca-7112ceec0030.heic',
     languages: ['Hindi'],
     duration: '1h 45m'
   },
@@ -486,7 +486,7 @@ export const plays: Play[] = [
     date: 'Sat, 1 Mar',
     price: 299,
     category: 'Hindi Theatre',
-    imageUrl: 'https://images.unsplash.com/photo-1604537466608-109fa2f16c3b?w=800&q=80',
+    imageUrl: 'https://bahujanstore.com/public/assets/images/products/largeimg/1710871745_586098fc4ed0bfa0322e.jpg',
     languages: ['Hindi'],
     duration: '2h 15m'
   },
@@ -508,7 +508,7 @@ export const plays: Play[] = [
     date: 'Sat, 29 Mar',
     price: 399,
     category: 'Hindi Theatre',
-    imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80',
+    imageUrl: 'https://media.istockphoto.com/id/1389125114/photo/light-trails-on-british-countryside-road-peak-district-uk.jpg?s=612x612&w=0&k=20&c=3v38ZLbevXjHMfbz7iZMwoJvh9kfpSla8aJpwz7dEac=',
     languages: ['Hindi'],
     duration: '2h'
   },
@@ -520,7 +520,7 @@ export const plays: Play[] = [
     date: 'Sat, 19 Apr',
     price: 349,
     category: 'Dance Drama',
-    imageUrl: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&q=80',
+    imageUrl: 'https://c8.alamy.com/comp/2JDPE5P/dixitkhanposter-devdas-2002-2JDPE5P.jpg',
     languages: ['Hindi'],
     duration: '2h'
   },
@@ -531,7 +531,7 @@ export const plays: Play[] = [
     date: 'Sun, 27 Apr',
     price: 249,
     category: 'Dance Drama',
-    imageUrl: 'https://images.unsplash.com/photo-1517697471339-4aa32003c11a?w=800&q=80',
+    imageUrl: 'https://i.pinimg.com/564x/a1/0c/39/a10c39ff82960700d56b42e3b4e9ecbe.jpg',
     languages: ['Hindi', 'Sanskrit'],
     duration: '2h 15m'
   },
@@ -554,7 +554,7 @@ export const plays: Play[] = [
     date: 'Sat, 29 Mar',
     price: 449,
     category: 'English Theatre',
-    imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80',
+    imageUrl: 'https://i.pinimg.com/474x/5b/ba/3c/5bba3cb765913f7f9efcac871cab57ce.jpg',
     languages: ['English'],
     duration: '2h 20m'
   },
@@ -565,7 +565,7 @@ export const plays: Play[] = [
     date: 'Sat, 5 Apr',
     price: 499,
     category: 'English Theatre',
-    imageUrl: 'https://images.unsplash.com/photo-1580058572462-98e2c0e0e2f0?w=800&q=80',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/en/thumb/2/20/DeathOfASalesman.jpg/250px-DeathOfASalesman.jpg',
     languages: ['English'],
     duration: '2h 30m'
   },
@@ -577,7 +577,7 @@ export const plays: Play[] = [
     date: 'Sat, 5 Apr',
     price: 99,
     category: 'Jatra',
-    imageUrl: 'https://images.unsplash.com/photo-1525182008055-f88b95ff7980?w=800&q=80',
+    imageUrl: 'https://i.pinimg.com/736x/e2/3f/cd/e23fcdac3cfd971b1354e74dac813a8e.jpg',
     languages: ['Odia'],
     duration: '3h'
   },
@@ -588,7 +588,7 @@ export const plays: Play[] = [
     date: 'Sat, 19 Apr',
     price: 79,
     category: 'Jatra',
-    imageUrl: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&q=80',
+    imageUrl: 'https://media.istockphoto.com/id/1444504746/photo/flowering-sacred-tulsi-plant.jpg?s=612x612&w=0&k=20&c=aTl5BErUTkNe2tt_1Xmz0qQviygj3CuCFWTlmYUZf6A=',
     languages: ['Odia'],
     duration: '3h 30m'
   }
@@ -803,11 +803,230 @@ export const playCategories = [
 ];
 
 export const sportCategories = [
-  'Cricket', 'Running', 'Chess', 'Motorsports', 'Card Games',
-  'Basketball', 'Cycling', 'Mixed Martial Arts', 'Shooting',
-  'Kabaddi', 'Football', 'Marathon'
+  'Cricket', 'Marathon', 'Running', 'Hiking', 'Kabaddi', 'Football',
+  'Chess', 'Basketball', 'Cycling', 'Mixed Martial Arts',
+  'Shooting', 'Motorsports', 'Card Games'
 ];
 
 export const dateFilters = ['Today', 'Tomorrow', 'This Weekend'];
 
-export const sports: Sport[] = [];
+export const sports: Sport[] = [
+  // ── Marathon ──
+  {
+    id: 's1',
+    title: 'Tata Mumbai Marathon 2026',
+    venue: 'Chhatrapati Shivaji Maharaj Terminus, Mumbai',
+    date: 'Sun, 15 Mar',
+    price: 999,
+    category: 'Marathon',
+    imageUrl: Marathon,
+  },
+  {
+    id: 's2',
+    title: 'Bhubaneswar Half Marathon',
+    venue: 'Kalinga Stadium, Bhubaneswar',
+    date: 'Sun, 23 Feb',
+    price: 499,
+    category: 'Marathon',
+    imageUrl: Marathon2,
+  },
+  {
+    id: 's3',
+    title: 'Puri Beach Marathon',
+    venue: 'Puri Sea Beach, Puri',
+    date: 'Sat, 8 Mar',
+    price: 399,
+    category: 'Marathon',
+    imageUrl: Marathon3,
+  },
+  {
+    id: 's4',
+    title: 'Vedanta Delhi Half Marathon',
+    venue: 'Jawaharlal Nehru Stadium, New Delhi',
+    date: 'Sun, 30 Mar',
+    price: 799,
+    category: 'Marathon',
+    imageUrl: Marathon4,
+  },
+  // ── Running ──
+  {
+    id: 's5',
+    title: 'Bhubaneswar 10K Run 2026',
+    venue: 'Ekamra Haat, Bhubaneswar',
+    date: 'Sat, 1 Mar',
+    price: 299,
+    category: 'Running',
+    imageUrl: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80',
+  },
+  {
+    id: 's6',
+    title: 'Sunrise Run - Konark',
+    venue: 'Konark Sun Temple, Puri',
+    date: 'Sun, 9 Mar',
+    price: 199,
+    category: 'Running',
+    imageUrl: 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=800&q=80',
+  },
+  {
+    id: 's7',
+    title: 'Night Run Bhubaneswar',
+    venue: 'KIIT Campus, Bhubaneswar',
+    date: 'Sat, 22 Mar',
+    price: 349,
+    category: 'Running',
+    imageUrl: 'https://images.unsplash.com/photo-1506485338023-6ce5f36692df?w=800&q=80',
+  },
+  // ── Hiking ──
+  {
+    id: 's8',
+    title: 'Nandankanan Nature Trek',
+    venue: 'Nandankanan Zoological Park, Bhubaneswar',
+    date: 'Sat, 1 Mar',
+    price: 0,
+    category: 'Hiking',
+    imageUrl: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80',
+  },
+  {
+    id: 's9',
+    title: 'Deras Dam Trail Hike',
+    venue: 'Deras Dam, Khordha',
+    date: 'Sun, 16 Mar',
+    price: 149,
+    category: 'Hiking',
+    imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80',
+  },
+  {
+    id: 's10',
+    title: 'Satkosia Gorge Trek',
+    venue: 'Satkosia Tiger Reserve, Angul',
+    date: 'Sat, 29 Mar',
+    price: 599,
+    category: 'Hiking',
+    imageUrl: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=800&q=80',
+  },
+  // ── Kabaddi ──
+  {
+    id: 's11',
+    title: 'Pro Kabaddi League - Patna Pirates vs U Mumba',
+    venue: 'Barabati Stadium, Cuttack',
+    date: 'Fri, 28 Feb',
+    price: 299,
+    category: 'Kabaddi',
+    imageUrl: Kabaddi,
+  },
+  {
+    id: 's12',
+    title: 'Odisha Kabaddi Championship',
+    venue: 'Kalinga Stadium, Bhubaneswar',
+    date: 'Sat, 15 Mar',
+    price: 199,
+    category: 'Kabaddi',
+    imageUrl: Kabaddi,
+  },
+  // ── Cricket ──
+  {
+    id: 's13',
+    title: 'IPL 2026: Sunrisers Hyderabad vs RCB',
+    venue: 'Barabati Stadium, Cuttack',
+    date: 'Sat, 5 Apr',
+    price: 799,
+    category: 'Cricket',
+    imageUrl: 'https://i.pinimg.com/736x/2b/0a/e1/2b0ae13cd927906c72b4d09ebd09f52f.jpg',
+  },
+  {
+    id: 's14',
+    title: 'Ranji Trophy: Odisha vs Bengal',
+    venue: 'DRIEMS Ground, Cuttack',
+    date: 'Tue, 11 Mar',
+    price: 99,
+    category: 'Cricket',
+    imageUrl: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800&q=80',
+  },
+  // ── Football ──
+  {
+    id: 's15',
+    title: 'ISL 2025-26: Odisha FC vs Bengaluru FC',
+    venue: 'Kalinga Stadium, Bhubaneswar',
+    date: 'Sat, 1 Mar',
+    price: 399,
+    category: 'Football',
+    imageUrl: ISL,
+  },
+  {
+    id: 's16',
+    title: 'Santosh Trophy: Odisha vs Goa',
+    venue: 'KIIT Stadium, Bhubaneswar',
+    date: 'Sun, 16 Mar',
+    price: 149,
+    category: 'Football',
+    imageUrl: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80',
+  },
+  // ── Cycling ──
+  {
+    id: 's17',
+    title: 'Bhubaneswar Cycling Festival 2026',
+    venue: 'Raj Bhawan Road, Bhubaneswar',
+    date: 'Sun, 2 Mar',
+    price: 249,
+    category: 'Cycling',
+    imageUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+  },
+  {
+    id: 's18',
+    title: 'Tour de Odisha - Stage Race',
+    venue: 'Puri - Bhubaneswar Highway',
+    date: 'Sat, 12 Apr',
+    price: 499,
+    category: 'Cycling',
+    imageUrl: 'https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=800&q=80',
+  },
+  // ── Chess ──
+  {
+    id: 's19',
+    title: 'Odisha State Chess Championship',
+    venue: 'Hotel Swosti, Bhubaneswar',
+    date: 'Sat, 8 Mar',
+    price: 199,
+    category: 'Chess',
+    imageUrl: 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=800&q=80',
+  },
+  {
+    id: 's20',
+    title: 'Open Rapid Chess Tournament',
+    venue: 'KIIT University, Bhubaneswar',
+    date: 'Sun, 23 Mar',
+    price: 99,
+    category: 'Chess',
+    imageUrl: 'https://images.unsplash.com/photo-1528819622765-d6bcf132f793?w=800&q=80',
+  },
+  // ── Basketball ──
+  {
+    id: 's21',
+    title: '3x3 Basketball League Bhubaneswar',
+    venue: 'SAI Sports Complex, Bhubaneswar',
+    date: 'Sat, 22 Mar',
+    price: 149,
+    category: 'Basketball',
+    imageUrl: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&q=80',
+  },
+  // ── Shooting ──
+  {
+    id: 's22',
+    title: 'Odisha Shooting Championship 2026',
+    venue: 'Kalinga Stadium Shooting Range, Bhubaneswar',
+    date: 'Sat, 5 Apr',
+    price: 299,
+    category: 'Shooting',
+    imageUrl: 'https://media.istockphoto.com/id/1268516316/vector/trap-shooting-aiming-athlete-with-gun-low-polygonal-isolated-vector-illustration-geometric.jpg?s=612x612&w=0&k=20&c=1QSnY-nZXkopXKpIm9RhVCFl54U7qq7tZrslAF7AUj0=',
+  },
+  // ── Mixed Martial Arts ──
+  {
+    id: 's23',
+    title: 'Super Fight League - Bhubaneswar',
+    venue: 'KIIT Stadium, Bhubaneswar',
+    date: 'Sat, 19 Apr',
+    price: 499,
+    category: 'Mixed Martial Arts',
+    imageUrl: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=800&q=80',
+  },
+];

@@ -2,13 +2,10 @@ import { useState, useMemo } from 'react';
 import { EventCard } from '../components/EventCard';
 import { Carousel } from '../components/Carousel';
 import { plays, playCategories } from '../data/moviesData';
-import { ChevronRight } from 'lucide-react';
 
 export default function Plays() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
-
-  const selectedCity = localStorage.getItem('selectedCity') || 'Bhubaneswar';
 
   const allLanguages = [...new Set(plays.flatMap(p => p.languages || []))].sort();
 
@@ -39,17 +36,8 @@ export default function Plays() {
 
   return (
     <div className="max-w-[1400px] mx-auto px-4 py-6">
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-        <span>Home</span>
-        <ChevronRight size={16} />
-        <span className="text-gray-900 font-medium">Plays in {selectedCity}</span>
-      </div>
-
       {/* Header */}
       <div className="mb-6 pb-4 border-b">
-        <h2 className="text-2xl font-bold mb-4">Plays in {selectedCity}</h2>
-
         {/* Category filter pills */}
         <div className="flex flex-wrap items-center gap-2 mb-3">
           {playCategories.map(cat => (
