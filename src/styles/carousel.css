@@ -28,22 +28,16 @@
 
 /* ── Critical mobile fixes ── */
 
-/* Force slides to respect their computed width and never overflow */
-.slick-slide {
-  min-width: 0 !important;
-  box-sizing: border-box !important;
-}
-
-/* The inner div slick wraps each slide in */
-.slick-slide > div {
-  min-width: 0;
+/* Contain the slider so it never causes page-level horizontal scroll */
+.slick-slider {
+  overflow: hidden;
   width: 100%;
-  box-sizing: border-box;
+  max-width: 100%;
 }
 
-/* The slick track should never exceed the list width */
 .slick-list {
   overflow: hidden;
+  width: 100%;
 }
 
 .slick-track {
@@ -51,19 +45,27 @@
   align-items: stretch;
 }
 
-.slick-track .slick-slide {
+/* Force slides to respect their computed width */
+.slick-slide {
+  min-width: 0 !important;
+  box-sizing: border-box !important;
   height: auto;
   display: flex !important;
   flex-direction: column;
 }
 
-.slick-track .slick-slide > div {
+/* Slick's inner wrapper div */
+.slick-slide > div {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.slick-track .slick-slide > div > div {
-  flex: 1;
+.slick-slide > div > * {
   min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
