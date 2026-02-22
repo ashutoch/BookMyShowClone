@@ -1,5 +1,6 @@
 import Slider from 'react-slick';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React from 'react';
 
 interface CarouselProps {
   children: React.ReactNode;
@@ -33,44 +34,45 @@ function PrevArrow(props: any) {
 
 export function Carousel({ children, title, showAll }: CarouselProps) {
   const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 2,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    responsive: [
-      {
-        breakpoint: 1280,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 2,
-        }
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        }
+  dots: false,
+  infinite: false,
+  speed: 400,
+  slidesToShow: 5,
+  slidesToScroll: 2,
+  arrows: true,
+  responsive: [
+    {
+      breakpoint: 1280,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 2,
       }
-    ]
-  };
+    },
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2.2,
+        slidesToScroll: 1,
+        arrows: false,
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1.3,
+        slidesToScroll: 1,
+        arrows: false,
+      }
+    }
+  ]
+};
 
   return (
     <div className="mb-10">
@@ -87,9 +89,11 @@ export function Carousel({ children, title, showAll }: CarouselProps) {
           )}
         </div>
       )}
-      <div className="relative px-10">
+      <div className="relative w-full overflow-hidden">
         <Slider {...settings}>
-          {children}
+          {React.Children.map(children, (child) => (
+            <div className="px-2 box-border">{child}</div>
+          ))}
         </Slider>
       </div>
     </div>
