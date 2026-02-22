@@ -1,4 +1,10 @@
 import { movieImages } from './movieImages';
+import Marathon from '../../assets/Marathon.jpg';
+import Marathon2 from '../../assets/Marathon2.jpg';
+import Marathon3 from '../../assets/Marathon3.jpg';
+import Marathon4 from '../../assets/Marathon4.jpg';
+import Kabaddi from '../../assets/Kabaddi.jpg';
+import ISL from '../../assets/ISL.jpg';
 
 export interface Movie {
   id: string;
@@ -264,7 +270,7 @@ export const sports: Sport[] = [
     date: 'Sun, 22 Feb',
     price: 229,
     category: 'Running',
-    imageUrl: 'https://images.unsplash.com/photo-1695655300485-d3da8bc72076?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXJhdGhvbiUyMHJ1bm5pbmclMjBldmVudHxlbnwxfHx8fDE3NzE0MTU0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080'
+    imageUrl: Marathon
   },
   {
     id: 's2',
@@ -273,7 +279,7 @@ export const sports: Sport[] = [
     date: 'Sun, 8 Mar',
     price: 0,
     category: 'Running',
-    imageUrl: 'https://images.unsplash.com/photo-1695655300485-d3da8bc72076?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXJhdGhvbiUyMHJ1bm5pbmclMjBldmVudHxlbnwxfHx8fDE3NzE0MTU0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080'
+    imageUrl: Marathon2
   },
   {
     id: 's3',
@@ -282,7 +288,7 @@ export const sports: Sport[] = [
     date: 'Sun, 8 Mar',
     price: 0,
     category: 'Marathon',
-    imageUrl: 'https://images.unsplash.com/photo-1695655300485-d3da8bc72076?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXJhdGhvbiUyMHJ1bm5pbmclMjBldmVudHxlbnwxfHx8fDE3NzE0MTU0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080'
+    imageUrl: Marathon3
   },
   {
     id: 's4',
@@ -291,7 +297,7 @@ export const sports: Sport[] = [
     date: 'Sun, 8 Mar',
     price: 499,
     category: 'Marathon',
-    imageUrl: 'https://images.unsplash.com/photo-1695655300485-d3da8bc72076?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXJhdGhvbiUyMHJ1bm5pbmclMjBldmVudHxlbnwxfHx8fDE3NzE0MTU0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080'
+    imageUrl: Marathon4
   },
   {
     id: 's5',
@@ -300,7 +306,7 @@ export const sports: Sport[] = [
     date: 'Sat, 15 Mar',
     price: 399,
     category: 'Kabaddi',
-    imageUrl: 'https://images.unsplash.com/photo-1695655300485-d3da8bc72076?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXJhdGhvbiUyMHJ1bm5pbmclMjBldmVudHxlbnwxfHx8fDE3NzE0MTU0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080'
+    imageUrl: Kabaddi
   },
   {
     id: 's6',
@@ -309,7 +315,7 @@ export const sports: Sport[] = [
     date: 'Sun, 23 Mar',
     price: 299,
     category: 'Football',
-    imageUrl: 'https://images.unsplash.com/photo-1695655300485-d3da8bc72076?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXJhdGhvbiUyMHJ1bm5pbmclMjBldmVudHxlbnwxfHx8fDE3NzE0MTU0MjN8MA&ixlib=rb-4.1.0&q=80&w=1080'
+    imageUrl: ISL
   }
 ];
 

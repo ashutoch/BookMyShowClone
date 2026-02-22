@@ -12,9 +12,8 @@ export function MovieCard({ movie }: MovieCardProps) {
     <Link
       to={`/movie/${movie.id}`}
       className="group block bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-      style={{ display: 'block', width: '100%', minWidth: 0 }}
     >
-      <div className="relative overflow-hidden" style={{ aspectRatio: '2/3' }}>
+      <div className="relative aspect-[2/3] overflow-hidden">
         <ImageWithFallback
           src={movie.imageUrl}
           alt={movie.title}
@@ -27,19 +26,19 @@ export function MovieCard({ movie }: MovieCardProps) {
           <span className="ml-1 text-gray-300">{movie.votes} Votes</span>
         </div>
       </div>
-      <div className="p-2">
-        <h3 className="font-semibold text-sm mb-1 truncate">{movie.title}</h3>
-        <div className="text-xs text-gray-600 mb-1 truncate">
-          {movie.genres.slice(0, 2).join('/')}
+      <div className="p-3">
+        <h3 className="font-semibold text-base mb-1 truncate">{movie.title}</h3>
+        <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+          <span>{movie.genres.slice(0, 2).join('/')}</span>
         </div>
         <div className="flex flex-wrap gap-1 mb-2">
-          {movie.languages.slice(0, 2).map(lang => (
-            <span key={lang} className="text-xs px-1.5 py-0.5 bg-gray-100 rounded truncate">
+          {movie.languages.slice(0, 3).map(lang => (
+            <span key={lang} className="text-xs px-2 py-0.5 bg-gray-100 rounded">
               {lang}
             </span>
           ))}
         </div>
-        <button className="w-full mt-1 bg-rose-600 text-white py-1.5 rounded-md hover:bg-rose-700 transition font-medium text-xs">
+        <button className="w-full mt-2 bg-rose-600 text-white py-2 rounded-md hover:bg-rose-700 transition font-medium">
           Book Now
         </button>
       </div>

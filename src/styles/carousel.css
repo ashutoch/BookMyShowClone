@@ -1,22 +1,6 @@
 @import "slick-carousel/slick/slick.css";
 @import "slick-carousel/slick/slick-theme.css";
 
-.slick-prev:before,
-.slick-next:before {
-  color: #333;
-  font-size: 30px;
-}
-
-.slick-prev {
-  left: -35px;
-  z-index: 1;
-}
-
-.slick-next {
-  right: -35px;
-  z-index: 1;
-}
-
 .slick-dots li button:before {
   font-size: 12px;
   color: #e11d48;
@@ -26,18 +10,14 @@
   color: #e11d48;
 }
 
-/* ── Critical mobile fixes ── */
-
-/* Contain the slider so it never causes page-level horizontal scroll */
 .slick-slider {
-  overflow: hidden;
-  width: 100%;
-  max-width: 100%;
+  position: relative;
 }
 
 .slick-list {
   overflow: hidden;
-  width: 100%;
+  /* negative margin to compensate for the padding on each side */
+  margin: 0 -8px;
 }
 
 .slick-track {
@@ -45,23 +25,19 @@
   align-items: stretch;
 }
 
-/* Force slides to respect their computed width */
 .slick-slide {
   min-width: 0 !important;
   box-sizing: border-box !important;
   height: auto;
-  display: flex !important;
-  flex-direction: column;
+  /* This is the gap between cards — guaranteed to work */
+  padding: 0 8px !important;
 }
 
-/* Slick's inner wrapper div */
 .slick-slide > div {
   min-width: 0;
   width: 100%;
   box-sizing: border-box;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  height: 100%;
 }
 
 .slick-slide > div > * {
