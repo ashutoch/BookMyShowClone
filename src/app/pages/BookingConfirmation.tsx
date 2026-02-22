@@ -117,7 +117,7 @@ export default function BookingConfirmation() {
             <div className="mb-6 pb-6 border-b">
               <h3 className="font-bold text-lg mb-3">Seat Details</h3>
               <div className="flex flex-wrap gap-2">
-                {booking.seats.map((seat: string) => (
+                {booking.seats?.map((seat: string) => (
                   <div
                     key={seat}
                     className="px-4 py-2 bg-rose-100 text-rose-700 rounded-lg font-semibold"
