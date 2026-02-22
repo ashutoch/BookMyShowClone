@@ -35,7 +35,7 @@ function PrevArrow(props: any) {
 export function Carousel({ children, title, showAll }: CarouselProps) {
   const settings = {
   dots: false,
-  infinite: false,
+  infinite: true,
   speed: 400,
   slidesToShow: 5,
   slidesToScroll: 2,
