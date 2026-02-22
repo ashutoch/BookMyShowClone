@@ -1,54 +1,49 @@
 import { Link, useNavigate } from 'react-router';
-import { Search, Menu, MapPin, ChevronDown, User, X, Ticket, LogOut } from 'lucide-react';
+import { Search, Menu, X, Ticket, LogOut, User } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
-import { cities } from '../data/moviesData';
 
 export function Header() {
   const navigate = useNavigate();
-  const [selectedCity, setSelectedCity] = useState('Bhubaneswar');
-  const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
-  
-  const cityDropdownRef = useRef<HTMLDivElement>(null);
+
   const menuDropdownRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Check login status
+  const refreshAuthState = () => {
     const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const name = localStorage.getItem('userName') || '';
     setIsLoggedIn(loggedIn);
     setUserName(name);
+  };
 
-    // Load selected city
-    const savedCity = localStorage.getItem('selectedCity');
-    if (savedCity) {
-      setSelectedCity(savedCity);
-    }
+  useEffect(() => {
+    refreshAuthState();
+    // Re-check on tab focus (catches post-login redirect back to page)
+    window.addEventListener('focus', refreshAuthState);
+    window.addEventListener('storage', refreshAuthState);
+    return () => {
+      window.removeEventListener('focus', refreshAuthState);
+      window.removeEventListener('storage', refreshAuthState);
+    };
   }, []);
 
-  // Close dropdowns when clicking outside
+  // Also re-check on every navigation by polling (handles same-tab redirects)
+  useEffect(() => {
+    const interval = setInterval(refreshAuthState, 500);
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (cityDropdownRef.current && !cityDropdownRef.current.contains(event.target as Node)) {
-        setShowCityDropdown(false);
-      }
       if (menuDropdownRef.current && !menuDropdownRef.current.contains(event.target as Node)) {
         setShowMenu(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const handleCitySelect = (city: string) => {
-    setSelectedCity(city);
-    setShowCityDropdown(false);
-    localStorage.setItem('selectedCity', city);
-  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,14 +61,19 @@ export function Header() {
     navigate('/');
   };
 
+  const handleMenuToggle = () => {
+    refreshAuthState();
+    setShowMenu(prev => !prev);
+  };
+
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-[1400px] mx-auto px-4 py-3">
         <div className="flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="text-rose-600 font-bold text-2xl">
-              book<span className="text-gray-800">my</span>show
+          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+            <div className="text-rose-600 font-extrabold text-2xl tracking-tight">
+              Movies<span className="text-gray-800">Verse</span>
             </div>
           </Link>
 
@@ -92,64 +92,41 @@ export function Header() {
           </form>
 
           {/* Right Section */}
-          <div className="flex items-center gap-4">
-            {/* City Selector */}
-            <div className="relative" ref={cityDropdownRef}>
-              <button
-                onClick={() => setShowCityDropdown(!showCityDropdown)}
-                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-md transition"
-              >
-                <MapPin size={18} className="text-rose-600" />
-                <span className="hidden sm:inline">{selectedCity}</span>
-                <ChevronDown size={16} />
-              </button>
-              {showCityDropdown && (
-                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg max-h-96 overflow-y-auto z-50">
-                  {cities.map((city) => (
-                    <button
-                      key={city}
-                      onClick={() => handleCitySelect(city)}
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
-                    >
-                      {city}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Sign In / Username */}
+          <div className="flex items-center gap-3">
+            {/* Username pill or Sign In button */}
             {isLoggedIn ? (
-              <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-rose-50 text-rose-700 rounded-md font-medium">
-                <User size={18} />
+              <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-rose-50 text-rose-700 rounded-full font-semibold text-sm border border-rose-100">
+                <User size={16} />
                 <span>{userName}</span>
               </div>
             ) : (
-              <Link
-                to="/signin"
-                className="hidden sm:flex items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-md hover:bg-rose-700 transition"
+              <button
+                onClick={() => {
+                  localStorage.setItem('redirectAfterLogin', window.location.pathname);
+                  navigate('/signin');
+                }}
+                className="hidden sm:flex items-center gap-2 px-4 py-2 bg-rose-600 text-white rounded-md hover:bg-rose-700 transition font-medium text-sm"
               >
-                Sign in
-              </Link>
+                Sign In
+              </button>
             )}
 
-            {/* Menu Icon */}
+            {/* Hamburger Menu */}
             <div className="relative" ref={menuDropdownRef}>
               <button
-                onClick={() => setShowMenu(!showMenu)}
+                onClick={handleMenuToggle}
                 className="p-2 hover:bg-gray-100 rounded-md transition"
               >
                 {showMenu ? <X size={24} /> : <Menu size={24} />}
               </button>
-              
-              {/* Menu Dropdown */}
+
               {showMenu && (
                 <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
                   {isLoggedIn ? (
                     <>
-                      <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
-                        <p className="text-sm text-gray-600">Signed in as</p>
-                        <p className="font-semibold text-gray-800">{userName}</p>
+                      <div className="px-4 py-3 bg-rose-50 border-b border-rose-100">
+                        <p className="text-xs text-rose-400 font-medium uppercase tracking-wide mb-0.5">Signed in as</p>
+                        <p className="font-bold text-rose-700 text-lg">{userName}</p>
                       </div>
                       <Link
                         to="/my-bookings"
@@ -157,32 +134,40 @@ export function Header() {
                         onClick={() => setShowMenu(false)}
                       >
                         <Ticket size={20} className="text-rose-600" />
-                        <span className="text-gray-700">My Bookings</span>
+                        <span className="text-gray-700 font-medium">My Bookings</span>
                       </Link>
                       <button
                         onClick={handleSignOut}
-                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition text-left border-t border-gray-200"
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition text-left border-t border-gray-100"
                       >
-                        <LogOut size={20} className="text-red-600" />
-                        <span className="text-gray-700">Sign Out</span>
+                        <LogOut size={20} className="text-red-500" />
+                        <span className="text-gray-700 font-medium">Sign Out</span>
                       </button>
                     </>
                   ) : (
-                    <>
-                      <Link
-                        to="/signin"
-                        className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition"
-                        onClick={() => setShowMenu(false)}
+                    <div className="px-4 py-4">
+                      <p className="text-sm text-gray-500 mb-3">Sign in to book tickets and manage your bookings</p>
+                      <button
+                        onClick={() => {
+                          localStorage.setItem('redirectAfterLogin', window.location.pathname);
+                          navigate('/signin');
+                          setShowMenu(false);
+                        }}
+                        className="w-full py-2.5 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition font-semibold text-sm mb-2"
                       >
-                        <User size={20} className="text-rose-600" />
-                        <span className="text-gray-700">Sign In</span>
-                      </Link>
-                      <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
-                        <p className="text-sm text-gray-600">
-                          Sign in to view your bookings and more
-                        </p>
-                      </div>
-                    </>
+                        Sign In
+                      </button>
+                      <button
+                        onClick={() => {
+                          localStorage.setItem('redirectAfterLogin', window.location.pathname);
+                          navigate('/signin?mode=signup');
+                          setShowMenu(false);
+                        }}
+                        className="w-full py-2.5 border-2 border-rose-600 text-rose-600 rounded-lg hover:bg-rose-50 transition font-semibold text-sm"
+                      >
+                        Create Account
+                      </button>
+                    </div>
                   )}
                 </div>
               )}
@@ -192,21 +177,15 @@ export function Header() {
 
         {/* Navigation */}
         <nav className="flex gap-6 mt-3 overflow-x-auto">
-          <Link to="/movies" className="text-gray-700 hover:text-rose-600 transition whitespace-nowrap">
-            Movies
-          </Link>
-          <Link to="/events" className="text-gray-700 hover:text-rose-600 transition whitespace-nowrap">
-            Events
-          </Link>
-          <Link to="/plays" className="text-gray-700 hover:text-rose-600 transition whitespace-nowrap">
-            Plays
-          </Link>
-          <Link to="/sports" className="text-gray-700 hover:text-rose-600 transition whitespace-nowrap">
-            Sports
-          </Link>
-          <Link to="/activities" className="text-gray-700 hover:text-rose-600 transition whitespace-nowrap">
-            Activities
-          </Link>
+          {['Movies', 'Events', 'Plays', 'Sports', 'Activities'].map(item => (
+            <Link
+              key={item}
+              to={`/${item.toLowerCase()}`}
+              className="text-gray-700 hover:text-rose-600 transition whitespace-nowrap font-medium text-sm pb-1 border-b-2 border-transparent hover:border-rose-600"
+            >
+              {item}
+            </Link>
+          ))}
         </nav>
       </div>
 

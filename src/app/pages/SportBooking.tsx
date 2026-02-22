@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { Calendar, MapPin, Clock, ChevronRight, Plus, Minus } from 'lucide-react';
+import { Calendar, MapPin, ChevronRight, LogIn, Users } from 'lucide-react';
 import { sports } from '../data/moviesData';
 import { storage } from '../utils/storage';
 
@@ -8,41 +8,49 @@ export default function SportBooking() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [numberOfTickets, setNumberOfTickets] = useState(1);
+  const [quantity, setQuantity] = useState(1);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const sport = sports.find(s => s.id === id);
 
   useEffect(() => {
     if (!sport) {
       navigate('/sports');
+      return;
     }
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    setIsLoggedIn(loggedIn);
   }, [sport, navigate]);
 
   const dates = ['Sat, 22 Feb', 'Sun, 23 Feb', 'Mon, 24 Feb', 'Tue, 25 Feb'];
-  const times = ['6:00 PM', '7:30 PM', '9:00 PM'];
 
-  const handleContinue = () => {
-    if (!selectedDate || !selectedTime) {
-      alert('Please select a date and time');
+  const ticketsTotal = sport ? sport.price * quantity : 0;
+  const convenienceFee = 30 * quantity;
+  const grandTotal = ticketsTotal + convenienceFee;
+
+  const handleConfirmBooking = () => {
+    if (!selectedDate) {
+      alert('Please select a date');
+      return;
+    }
+    if (!isLoggedIn) {
+      localStorage.setItem('redirectAfterLogin', `/sport/${id}`);
+      navigate('/signin');
       return;
     }
 
-    const ticketPrice = sport!.price;
-    const ticketsTotal = ticketPrice * numberOfTickets;
-    const convenienceFee = numberOfTickets * 50;
-    const grandTotal = ticketsTotal + convenienceFee;
-
-    const bookingData = {
+    const confirmedBooking = {
       movieId: sport!.id,
       movieTitle: sport!.title,
       movieImage: sport!.imageUrl,
       date: selectedDate,
-      showTime: selectedTime,
+      showTime: '',
+      theatre: sport!.venue,
+      theatreLocation: sport!.category,
       venue: sport!.venue,
-      price: sport!.price,
-      numberOfSeats: numberOfTickets,
-      ticketPrice,
+      seats: [],
+      numberOfSeats: quantity,
+      ticketPrice: sport!.price,
       ticketsTotal,
       convenienceFee,
       grandTotal,
@@ -50,14 +58,12 @@ export default function SportBooking() {
       bookingDate: new Date().toLocaleDateString('en-IN', {
         day: 'numeric',
         month: 'short',
-        year: 'numeric'
-      })
+        year: 'numeric',
+      }),
     };
 
-    // Save booking
-    storage.setConfirmedBooking(bookingData);
-    storage.addBooking(bookingData);
-
+    storage.setConfirmedBooking(confirmedBooking);
+    storage.addBooking(confirmedBooking);
     navigate('/booking-confirmation');
   };
 
@@ -69,28 +75,28 @@ export default function SportBooking() {
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex items-center gap-2 text-sm text-gray-600">
-            <span>Home</span>
+            <span className="cursor-pointer hover:text-rose-600" onClick={() => navigate('/')}>Home</span>
             <ChevronRight size={16} />
-            <span>Sports</span>
+            <span className="cursor-pointer hover:text-rose-600" onClick={() => navigate('/sports')}>Sports</span>
             <ChevronRight size={16} />
             <span className="text-gray-900 font-medium">{sport.title}</span>
           </div>
         </div>
       </div>
 
-      {/* Sport Details */}
+      {/* Sport Details Header */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex gap-6">
             <img
               src={sport.imageUrl}
               alt={sport.title}
-              className="w-32 h-48 object-cover rounded-lg shadow-md"
+              className="w-32 h-32 object-cover rounded-lg shadow-md"
             />
             <div>
               <h1 className="text-3xl font-bold mb-2">{sport.title}</h1>
               <div className="flex items-center gap-4 text-gray-600 mb-2">
-                <span className="px-3 py-1 bg-gray-100 rounded">{sport.category}</span>
+                <span className="px-3 py-1 bg-gray-100 rounded text-sm">{sport.category}</span>
               </div>
               <div className="flex items-center gap-2 text-gray-600 mb-2">
                 <MapPin size={18} />
@@ -105,8 +111,31 @@ export default function SportBooking() {
         </div>
       </div>
 
-      {/* Booking Form */}
+      {/* Sign-in warning */}
+      {!isLoggedIn && (
+        <div className="max-w-6xl mx-auto px-4 pt-6">
+          <div className="flex items-center justify-between bg-amber-50 border border-amber-200 rounded-lg px-5 py-4">
+            <div className="flex items-center gap-3">
+              <LogIn size={20} className="text-amber-600" />
+              <p className="text-amber-800 font-medium">
+                You'll need to sign in before completing your booking
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                localStorage.setItem('redirectAfterLogin', `/sport/${id}`);
+                navigate('/signin');
+              }}
+              className="px-4 py-2 bg-rose-600 text-white rounded-md hover:bg-rose-700 transition text-sm font-semibold whitespace-nowrap"
+            >
+              Sign In
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Date selection */}
         <h2 className="text-2xl font-bold mb-4">Select Date</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {dates.map(date => (
@@ -124,84 +153,64 @@ export default function SportBooking() {
           ))}
         </div>
 
-        {/* Time Selection */}
-        <h2 className="text-2xl font-bold mb-4">Select Time</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-          {times.map(time => (
+        {/* Ticket quantity */}
+        <h2 className="text-2xl font-bold mb-4">Number of Tickets</h2>
+        <div className="bg-white rounded-xl p-6 shadow-sm mb-8 flex items-center gap-6">
+          <Users size={24} className="text-rose-600" />
+          <div className="flex items-center gap-4">
             <button
-              key={time}
-              onClick={() => setSelectedTime(time)}
-              className={`p-4 rounded-lg border-2 transition ${
-                selectedTime === time
-                  ? 'border-rose-600 bg-rose-50'
-                  : 'border-gray-200 hover:border-rose-300'
-              }`}
+              onClick={() => setQuantity(q => Math.max(1, q - 1))}
+              className="w-10 h-10 rounded-full border-2 border-rose-600 text-rose-600 text-xl font-bold hover:bg-rose-50 transition"
             >
-              <div className="flex items-center justify-center gap-2">
-                <Clock size={18} />
-                <span className="font-semibold">{time}</span>
-              </div>
+              −
             </button>
-          ))}
-        </div>
-
-        {/* Ticket Selection */}
-        <div className="bg-white rounded-lg p-6 shadow-sm mb-8">
-          <h2 className="text-2xl font-bold mb-4">Number of Tickets</h2>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-600 mb-1">Ticket Price</p>
-              <p className="text-2xl font-bold text-rose-600">
-                {sport.price > 0 ? `₹${sport.price}` : 'Free'}
-              </p>
-            </div>
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setNumberOfTickets(Math.max(1, numberOfTickets - 1))}
-                className="w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 transition flex items-center justify-center"
-              >
-                <Minus size={20} />
-              </button>
-              <span className="text-2xl font-bold w-12 text-center">{numberOfTickets}</span>
-              <button
-                onClick={() => setNumberOfTickets(Math.min(6, numberOfTickets + 1))}
-                className="w-10 h-10 rounded-full bg-rose-600 hover:bg-rose-700 text-white transition flex items-center justify-center"
-              >
-                <Plus size={20} />
-              </button>
-            </div>
+            <span className="text-2xl font-bold w-8 text-center">{quantity}</span>
+            <button
+              onClick={() => setQuantity(q => Math.min(10, q + 1))}
+              className="w-10 h-10 rounded-full border-2 border-rose-600 text-rose-600 text-xl font-bold hover:bg-rose-50 transition"
+            >
+              +
+            </button>
           </div>
-          <p className="text-sm text-gray-500 mt-4">Maximum 6 tickets per booking</p>
+          <span className="text-gray-500 text-sm">Max 10 tickets</span>
         </div>
 
-        {/* Price Breakdown */}
-        {selectedDate && selectedTime && (
-          <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
-            <h3 className="font-semibold text-lg mb-4">Booking Summary</h3>
-            <div className="space-y-2 mb-4">
+        {/* Order summary */}
+        {selectedDate && (
+          <div className="bg-white rounded-xl p-6 shadow-sm mb-6">
+            <h3 className="font-bold text-lg mb-4">Order Summary</h3>
+            <div className="space-y-2">
               <div className="flex justify-between text-gray-600">
-                <span>Tickets ({numberOfTickets} × ₹{sport.price})</span>
-                <span>₹{sport.price * numberOfTickets}</span>
+                <span>Tickets ({quantity} × ₹{sport.price})</span>
+                <span>₹{ticketsTotal}</span>
               </div>
               <div className="flex justify-between text-gray-600">
                 <span>Convenience Fee</span>
-                <span>₹{numberOfTickets * 50}</span>
+                <span>₹{convenienceFee}</span>
               </div>
-              <div className="border-t pt-2 mt-2">
-                <div className="flex justify-between font-bold text-lg">
-                  <span>Grand Total</span>
-                  <span className="text-rose-600">₹{sport.price * numberOfTickets + numberOfTickets * 50}</span>
-                </div>
+              <div className="flex justify-between font-bold text-lg pt-2 border-t">
+                <span>Total</span>
+                <span className="text-rose-600">₹{grandTotal}</span>
               </div>
             </div>
-            <button
-              onClick={handleContinue}
-              className="w-full py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-700 transition"
-            >
-              Proceed to Pay
-            </button>
           </div>
         )}
+
+        <div className="flex justify-end">
+          <button
+            onClick={handleConfirmBooking}
+            disabled={!selectedDate}
+            className={`px-8 py-3 rounded-lg font-semibold text-white transition ${
+              selectedDate
+                ? 'bg-rose-600 hover:bg-rose-700'
+                : 'bg-gray-300 cursor-not-allowed'
+            }`}
+          >
+            {isLoggedIn
+              ? `Confirm Booking${selectedDate ? ` — ₹${grandTotal}` : ''}`
+              : 'Sign In to Continue'}
+          </button>
+        </div>
       </div>
     </div>
   );

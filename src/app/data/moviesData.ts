@@ -5,6 +5,8 @@ import Marathon3 from '../../assets/Marathon3.jpg';
 import Marathon4 from '../../assets/Marathon4.jpg';
 import Kabaddi from '../../assets/Kabaddi.jpg';
 import ISL from '../../assets/ISL.jpg';
+import AdityaGundeti from '../../assets/Adiyta Gundeti.png';
+import ComedyNight from '../../assets/Comedy.jpg';
 
 export interface Movie {
   id: string;
@@ -32,6 +34,18 @@ export interface Event {
   languages?: string[];
 }
 
+export interface Play {
+  id: string;
+  title: string;
+  venue: string;
+  date: string;
+  price: number;
+  category: string;
+  imageUrl: string;
+  languages?: string[];
+  duration?: string;
+}
+
 export interface Sport {
   id: string;
   title: string;
@@ -42,52 +56,43 @@ export interface Sport {
   imageUrl: string;
 }
 
+export interface Theatre {
+  id: string;
+  name: string;
+  location: string;
+  city: string;
+  shows: string[];
+}
+
 export const cities = [
   'Bhubaneswar',
+  'Cuttack',
   'Rourkela',
   'Sambalpur',
-  'Cuttack',
   'Berhampur',
   'Puri',
   'Balasore',
   'Bhadrak',
   'Baripada',
-  'Jharsuguda'
+  'Jharsuguda',
+  'Angul',
+  'Dhenkanal',
+  'Kendrapara',
+  'Paradip',
+  'Rayagada'
 ];
 
 export const languages = [
-  'Kannada',
-  'English',
-  'Hindi',
-  'Tamil',
-  'Telugu',
-  'Malayalam',
-  'Marathi',
-  'Odia',
-  'Bengali',
-  'Punjabi'
+  'Kannada', 'English', 'Hindi', 'Tamil', 'Telugu',
+  'Malayalam', 'Marathi', 'Odia', 'Bengali', 'Punjabi'
 ];
 
 export const genres = [
-  'Action',
-  'Adventure',
-  'Comedy',
-  'Drama',
-  'Horror',
-  'Thriller',
-  'Sci-Fi',
-  'Romance',
-  'Animation',
-  'Fantasy'
+  'Action', 'Adventure', 'Comedy', 'Drama', 'Horror',
+  'Thriller', 'Sci-Fi', 'Romance', 'Animation', 'Fantasy'
 ];
 
-export const formats = [
-  '2D',
-  '3D',
-  'IMAX',
-  '4DX',
-  'IMAX 3D'
-];
+export const formats = ['2D', '3D', 'IMAX', '4DX', 'IMAX 3D'];
 
 export const movies: Movie[] = [
   {
@@ -129,7 +134,7 @@ export const movies: Movie[] = [
     imageUrl: movieImages.fallGuy,
     duration: '2h 6m',
     releaseDate: '2024-05-03',
-    description: 'A stuntman\'s world is turned upside down when a conspiracy unfolds.',
+    description: "A stuntman's world is turned upside down when a conspiracy unfolds.",
     price: 230
   },
   {
@@ -201,177 +206,608 @@ export const movies: Movie[] = [
     releaseDate: '2024-08-09',
     description: 'Thor faces a new legendary challenge in Asgard.',
     price: 240
+  },
+  {
+    id: '9',
+    title: 'Stree 2',
+    rating: 9.0,
+    votes: '287K',
+    languages: ['Hindi'],
+    genres: ['Horror', 'Comedy'],
+    format: ['2D'],
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a1/Stree_2.jpg',
+    duration: '2h 15m',
+    releaseDate: '2024-08-15',
+    description: 'The terror of Stree returns to haunt Chanderi once more.',
+    price: 220
+  },
+  {
+    id: '10',
+    title: 'Pushpa: The Rule',
+    rating: 8.7,
+    votes: '321K',
+    languages: ['Telugu', 'Hindi', 'Tamil'],
+    genres: ['Action', 'Drama', 'Thriller'],
+    format: ['2D', '3D'],
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/en/1/11/Pushpa_2-_The_Rule.jpg',
+    duration: '3h 20m',
+    releaseDate: '2024-12-05',
+    description: 'Pushpa Raj expands his empire while facing deadlier enemies.',
+    price: 300
+  },
+  {
+    id: '11',
+    title: 'Kalki 2898 AD',
+    rating: 8.3,
+    votes: '198K',
+    languages: ['Telugu', 'Hindi', 'Tamil', 'Malayalam'],
+    genres: ['Sci-Fi', 'Action', 'Fantasy'],
+    format: ['2D', '3D', 'IMAX'],
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/en/4/4c/Kalki_2898_AD.jpg',
+    duration: '2h 58m',
+    releaseDate: '2024-06-27',
+    description: 'A futuristic sci-fi epic blending mythology and science fiction.',
+    price: 320
+  },
+  {
+    id: '12',
+    title: 'Fighter',
+    rating: 7.9,
+    votes: '156K',
+    languages: ['Hindi'],
+    genres: ['Action', 'Drama'],
+    format: ['2D', '3D', 'IMAX'],
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/en/d/df/Fighter_film_teaser.jpg',
+    duration: '2h 46m',
+    releaseDate: '2024-01-25',
+    description: "India's first aerial action franchise featuring elite air force pilots.",
+    price: 260
+  },
+  {
+    id: '13',
+    title: 'Animal',
+    rating: 8.1,
+    votes: '243K',
+    languages: ['Hindi'],
+    genres: ['Action', 'Drama', 'Thriller'],
+    format: ['2D'],
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/en/9/90/Animal_%282023_film%29_poster.jpg',
+    duration: '3h 21m',
+    releaseDate: '2023-12-01',
+    description: "A man goes to extreme lengths to win his father's love and respect.",
+    price: 240
+  },
+  {
+    id: '14',
+    title: 'Inception',
+    rating: 9.2,
+    votes: '189K',
+    languages: ['English', 'Hindi'],
+    genres: ['Sci-Fi', 'Thriller', 'Action'],
+    format: ['2D', '3D', 'IMAX', 'IMAX 3D'],
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg',
+    duration: '2h 50m',
+    releaseDate: '2024-07-16',
+    description: "Dom Cobb's journey into the depths of the human mind.",
+    price: 330
+  },
+  {
+    id: '15',
+    title: 'RRR',
+    rating: 9.1,
+    votes: '276K',
+    languages: ['Telugu', 'Hindi', 'Tamil'],
+    genres: ['Action', 'Drama', 'Adventure'],
+    format: ['2D', '3D', 'IMAX'],
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/en/d/d7/RRR_Poster.jpg',
+    duration: '3h 5m',
+    releaseDate: '2025-01-26',
+    description: 'The epic saga of Ram and Bheem continues in an even grander battle.',
+    price: 310
   }
 ];
 
 export const events: Event[] = [
+  // ── Stand-up & Comedy ──
   {
     id: 'e1',
-    title: 'Comedy Night@Brigade Road',
-    venue: 'Just BLR: Bhubaneswar',
-    date: 'Wed, 18 Feb onwards',
-    price: 100,
+    title: 'Comedy Night Live',
+    venue: 'Laughter Lounge, Bhubaneswar',
+    date: 'Sat, 22 Feb',
+    price: 299,
     category: 'Comedy Shows',
-    imageUrl: 'https://images.unsplash.com/photo-1643888395130-4cb09f9814d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21lZHklMjBuaWdodCUyMHN0YW5kJTIwdXB8ZW58MXx8fHwxNzcxNDE1NDIzfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    languages: ['English', 'Hindi']
+    imageUrl: ComedyNight,
+    languages: ['Hindi', 'English']
   },
   {
     id: 'e2',
     title: 'OVERSMARTGIRI by Aditya Gundeti',
-    venue: 'The Underground Comedy Club',
+    venue: 'The Underground Comedy Club, Cuttack',
     date: 'Sun, 12 Apr',
     price: 499,
     category: 'Stand up Comedy',
-    imageUrl: 'https://images.unsplash.com/photo-1643888395130-4cb09f9814d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21lZHklMjBuaWdodCUyMHN0YW5kJTIwdXB8ZW58MXx8fHwxNzcxNDE1NDIzfDA&ixlib=rb-4.1.0&q=80&w=1080'
+    imageUrl: AdityaGundeti,
+    languages: ['Hindi', 'Telugu']
   },
   {
     id: 'e3',
-    title: 'Saturday Kannada and Hindi Live Jamming',
-    venue: 'Silaa The Garden Cafe',
-    date: 'Sat, 21 Feb',
+    title: 'Hasna Mat! - Stand Up Special',
+    venue: 'Kalinga Cultural Hall, Bhubaneswar',
+    date: 'Fri, 7 Mar',
     price: 399,
-    category: 'Concerts',
-    imageUrl: 'https://images.unsplash.com/photo-1568215425379-7a994872739d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsaXZlJTIwbXVzaWMlMjBjb25jZXJ0JTIwc3RhZ2V8ZW58MXx8fHwxNzcxNDE0MjIwfDA&ixlib=rb-4.1.0&q=80&w=1080'
+    category: 'Stand up Comedy',
+    imageUrl: 'https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&q=80',
+    languages: ['Hindi']
   },
   {
     id: 'e4',
-    title: 'SHAAN LIVE IN BENGALURU',
-    venue: 'Phoenix Market City',
-    date: 'Sat, 4 Apr',
-    price: 699,
-    category: 'Concerts',
-    imageUrl: 'https://images.unsplash.com/photo-1568215425379-7a994872739d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsaXZlJTIwbXVzaWMlMjBjb25jZXJ0JTIwc3RhZ2V8ZW58MXx8fHwxNzcxNDE0MjIwfDA&ixlib=rb-4.1.0&q=80&w=1080'
+    title: 'Zakir Khan Live - Bhubaneswar',
+    venue: 'KIIT Stadium, Bhubaneswar',
+    date: 'Sat, 29 Mar',
+    price: 999,
+    category: 'Stand up Comedy',
+    imageUrl: 'https://images.unsplash.com/photo-1527224857830-43a7acc85260?w=800&q=80',
+    languages: ['Hindi']
   },
+  // ── Indian Dance ──
   {
     id: 'e5',
-    title: 'Macbeth: What\'s Done is Done',
-    venue: 'Ranga Shankara',
-    date: 'Sun, 15 Mar',
-    price: 350,
-    category: 'Theatre',
-    imageUrl: 'https://images.unsplash.com/photo-1764763180662-e4791157a87f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0aGVhdHJlJTIwc3RhZ2UlMjBwZXJmb3JtYW5jZXxlbnwxfHx8fDE3NzE0MDg1NDJ8MA&ixlib=rb-4.1.0&q=80&w=1080'
+    title: 'Odissi Utsav 2026',
+    venue: 'Rabindra Mandap, Bhubaneswar',
+    date: 'Sun, 2 Mar',
+    price: 250,
+    category: 'Dance',
+    imageUrl: 'https://images.unsplash.com/photo-1517697471339-4aa32003c11a?w=800&q=80',
+    languages: ['Odia']
   },
   {
     id: 'e6',
-    title: 'HUMARE RAM Ft',
-    venue: 'Jagriti Theatre',
-    date: 'Fri, 27 Feb onwards',
-    price: 400,
-    category: 'Theatre',
-    imageUrl: 'https://images.unsplash.com/photo-1764763180662-e4791157a87f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0aGVhdHJlJTIwc3RhZ2UlMjBwZXJmb3JtYW5jZXxlbnwxfHx8fDE3NzE0MDg1NDJ8MA&ixlib=rb-4.1.0&q=80&w=1080'
-  }
-];
-
-export const sports: Sport[] = [
-  {
-    id: 's1',
-    title: 'Miles for Smiles Run',
-    venue: 'Defence Colony Cricket Club',
-    date: 'Sun, 22 Feb',
-    price: 229,
-    category: 'Running',
-    imageUrl: Marathon
-  },
-  {
-    id: 's2',
-    title: 'The Sistra Run - Bengaluru',
-    venue: 'Orion Mall, Rajajinagar',
-    date: 'Sun, 8 Mar',
-    price: 0,
-    category: 'Running',
-    imageUrl: Marathon2
-  },
-  {
-    id: 's3',
-    title: 'Walk - Jog - RunInRed For Women\'s Health',
-    venue: 'Maharani Lakshmi...',
-    date: 'Sun, 8 Mar',
-    price: 0,
-    category: 'Marathon',
-    imageUrl: Marathon3
-  },
-  {
-    id: 's4',
-    title: 'Six Yard Run',
-    venue: 'Bhartiya Mall Of Bengaluru',
-    date: 'Sun, 8 Mar',
-    price: 499,
-    category: 'Marathon',
-    imageUrl: Marathon4
-  },
-  {
-    id: 's5',
-    title: 'Pro Kabaddi League 2024',
-    venue: 'Kalinga Stadium, Bhubaneswar',
+    title: 'Bollywood Dance Night',
+    venue: 'Mayfair Convention, Bhubaneswar',
     date: 'Sat, 15 Mar',
-    price: 399,
-    category: 'Kabaddi',
-    imageUrl: Kabaddi
+    price: 599,
+    category: 'Dance',
+    imageUrl: 'https://images.unsplash.com/photo-1545959570-a94084071b5d?w=800&q=80',
+    languages: ['Hindi']
   },
   {
-    id: 's6',
-    title: 'ISL Football Championship',
-    venue: 'Barabati Stadium, Cuttack',
+    id: 'e7',
+    title: 'Bharatanatyam Evening',
+    venue: 'Utkal Sangeet Mahavidyalaya, Bhubaneswar',
     date: 'Sun, 23 Mar',
-    price: 299,
-    category: 'Football',
-    imageUrl: ISL
+    price: 199,
+    category: 'Dance',
+    imageUrl: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&q=80',
+    languages: ['Tamil', 'Hindi']
+  },
+  {
+    id: 'e8',
+    title: 'Folk & Bollywood Extravaganza',
+    venue: 'Barabati Stadium, Cuttack',
+    date: 'Sat, 5 Apr',
+    price: 449,
+    category: 'Dance',
+    imageUrl: 'https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=800&q=80',
+    languages: ['Hindi', 'Odia']
+  },
+  // ── Concerts ──
+  {
+    id: 'e9',
+    title: 'SHAAN Live in Bhubaneswar',
+    venue: 'IDCO Exhibition Ground, Bhubaneswar',
+    date: 'Sat, 4 Apr',
+    price: 699,
+    category: 'Concerts',
+    imageUrl: 'https://images.unsplash.com/photo-1501386761578-eaa54b4d3bb0?w=800&q=80',
+    languages: ['Hindi']
+  },
+  {
+    id: 'e10',
+    title: 'Arijit Singh Live Concert',
+    venue: 'Kalinga Stadium, Bhubaneswar',
+    date: 'Sun, 20 Apr',
+    price: 1499,
+    category: 'Concerts',
+    imageUrl: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80',
+    languages: ['Hindi', 'Bengali']
+  },
+  {
+    id: 'e11',
+    title: 'Jubin Nautiyal - Night of Music',
+    venue: 'Binodini Open Air Theatre, Cuttack',
+    date: 'Sat, 12 Apr',
+    price: 849,
+    category: 'Concerts',
+    imageUrl: 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&q=80',
+    languages: ['Hindi']
+  },
+  {
+    id: 'e12',
+    title: 'A.R. Rahman Symphony',
+    venue: 'KIIT Stadium, Bhubaneswar',
+    date: 'Sat, 26 Apr',
+    price: 1999,
+    category: 'Concerts',
+    imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80',
+    languages: ['Hindi', 'Tamil', 'English']
   }
-];
-
-export const theatres = [
+]
+export const plays: Play[] = [
+  // ── Blockbuster Musicals ──
+  {
+    id: 'p1',
+    title: 'Mughal-E-Azam: The Musical',
+    venue: 'IDCO Convention Centre, Bhubaneswar',
+    date: 'Sat, 22 Mar',
+    price: 799,
+    category: 'Musical',
+    imageUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80',
+    languages: ['Hindi', 'Urdu'],
+    duration: '2h 45m'
+  },
+  {
+    id: 'p2',
+    title: 'Ramayana: The Epic Musical',
+    venue: 'KIIT Auditorium, Bhubaneswar',
+    date: 'Sun, 6 Apr',
+    price: 599,
+    category: 'Musical',
+    imageUrl: 'https://images.unsplash.com/photo-1501386761578-eaa54b4d3bb0?w=800&q=80',
+    languages: ['Hindi', 'Sanskrit'],
+    duration: '3h'
+  },
+  {
+    id: 'p3',
+    title: 'Disco Dancer - The Musical',
+    venue: 'Mayfair Convention Centre, Bhubaneswar',
+    date: 'Sat, 12 Apr',
+    price: 499,
+    category: 'Musical',
+    imageUrl: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80',
+    languages: ['Hindi'],
+    duration: '2h 30m'
+  },
+  // ── Hit Hindi Plays ──
+  {
+    id: 'p4',
+    title: 'Tumhari Amrita',
+    venue: 'Rabindra Mandap, Bhubaneswar',
+    date: 'Sun, 9 Mar',
+    price: 349,
+    category: 'Hindi Theatre',
+    imageUrl: 'https://images.unsplash.com/photo-1548438294-1ad5d5f4f063?w=800&q=80',
+    languages: ['Hindi'],
+    duration: '1h 45m'
+  },
+  {
+    id: 'p5',
+    title: 'Andha Yug',
+    venue: 'Utkal Rangamancha, Cuttack',
+    date: 'Sat, 1 Mar',
+    price: 299,
+    category: 'Hindi Theatre',
+    imageUrl: 'https://images.unsplash.com/photo-1604537466608-109fa2f16c3b?w=800&q=80',
+    languages: ['Hindi'],
+    duration: '2h 15m'
+  },
+  {
+    id: 'p6',
+    title: 'Ek Ruka Hua Faisla',
+    venue: 'Shilpa Kala Vedika, Bhubaneswar',
+    date: 'Fri, 14 Mar',
+    price: 249,
+    category: 'Hindi Theatre',
+    imageUrl: 'https://images.unsplash.com/photo-1503095396549-807759245b35?w=800&q=80',
+    languages: ['Hindi'],
+    duration: '2h'
+  },
+  {
+    id: 'p7',
+    title: 'Kahaani Ek Raaste Ki',
+    venue: 'Kalinga Cultural Hall, Bhubaneswar',
+    date: 'Sat, 29 Mar',
+    price: 399,
+    category: 'Hindi Theatre',
+    imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80',
+    languages: ['Hindi'],
+    duration: '2h'
+  },
+  // ── Dance Drama ──
+  {
+    id: 'p8',
+    title: 'Devdas: A Dance Drama',
+    venue: 'Rabindra Mandap, Bhubaneswar',
+    date: 'Sat, 19 Apr',
+    price: 349,
+    category: 'Dance Drama',
+    imageUrl: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&q=80',
+    languages: ['Hindi'],
+    duration: '2h'
+  },
+  {
+    id: 'p9',
+    title: 'Shakuntala - Classical Dance Drama',
+    venue: 'Shilpa Kala Vedika, Bhubaneswar',
+    date: 'Sun, 27 Apr',
+    price: 249,
+    category: 'Dance Drama',
+    imageUrl: 'https://images.unsplash.com/photo-1517697471339-4aa32003c11a?w=800&q=80',
+    languages: ['Hindi', 'Sanskrit'],
+    duration: '2h 15m'
+  },
+  // ── English Theatre ──
+  {
+    id: 'p10',
+    title: "Macbeth",
+    venue: 'Ranga Shankara, Bhubaneswar',
+    date: 'Sun, 15 Mar',
+    price: 399,
+    category: 'English Theatre',
+    imageUrl: 'https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?w=800&q=80',
+    languages: ['English'],
+    duration: '2h 10m'
+  },
+  {
+    id: 'p11',
+    title: "A Midsummer Night's Dream",
+    venue: 'Alliance Française, Bhubaneswar',
+    date: 'Sat, 29 Mar',
+    price: 449,
+    category: 'English Theatre',
+    imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80',
+    languages: ['English'],
+    duration: '2h 20m'
+  },
+  {
+    id: 'p12',
+    title: 'Death of a Salesman',
+    venue: 'KIIT Auditorium, Bhubaneswar',
+    date: 'Sat, 5 Apr',
+    price: 499,
+    category: 'English Theatre',
+    imageUrl: 'https://images.unsplash.com/photo-1580058572462-98e2c0e0e2f0?w=800&q=80',
+    languages: ['English'],
+    duration: '2h 30m'
+  },
+  // ── Jatra (Traditional) ──
+  {
+    id: 'p13',
+    title: 'Kansa Badha - Grand Jatra',
+    venue: 'Barabati Stadium, Cuttack',
+    date: 'Sat, 5 Apr',
+    price: 99,
+    category: 'Jatra',
+    imageUrl: 'https://images.unsplash.com/photo-1525182008055-f88b95ff7980?w=800&q=80',
+    languages: ['Odia'],
+    duration: '3h'
+  },
+  {
+    id: 'p14',
+    title: 'Sati Tulasi - Epic Jatra',
+    venue: 'Baliyatra Ground, Cuttack',
+    date: 'Sat, 19 Apr',
+    price: 79,
+    category: 'Jatra',
+    imageUrl: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&q=80',
+    languages: ['Odia'],
+    duration: '3h 30m'
+  }
+]
+export const theatres: Theatre[] = [
+  // ── Bhubaneswar ──
   {
     id: 't1',
-    name: 'INOX: Bhubaneswar',
+    name: 'INOX: DN Regalia Mall',
     location: 'DN Regalia Mall, Chandrasekharpur',
+    city: 'Bhubaneswar',
     shows: ['10:00 AM', '1:30 PM', '5:00 PM', '8:30 PM', '11:00 PM']
   },
   {
     id: 't2',
     name: 'Cinepolis: Esplanade One',
     location: 'Rasulgarh, Bhubaneswar',
+    city: 'Bhubaneswar',
     shows: ['9:30 AM', '12:45 PM', '4:15 PM', '7:45 PM', '10:30 PM']
   },
   {
     id: 't3',
-    name: 'PVR Cinemas: Rourkela',
-    location: 'City Centre Mall, Rourkela',
+    name: 'PVR: Forum Mart',
+    location: 'Forum Mart Mall, Rasulgarh',
+    city: 'Bhubaneswar',
     shows: ['10:30 AM', '2:00 PM', '5:30 PM', '9:00 PM']
   },
   {
     id: 't4',
-    name: 'Carnival Cinemas: Sambalpur',
+    name: 'Kalinga Talkies',
+    location: 'Bapuji Nagar, Bhubaneswar',
+    city: 'Bhubaneswar',
+    shows: ['10:00 AM', '1:00 PM', '4:00 PM', '7:00 PM', '10:00 PM']
+  },
+  // ── Cuttack ──
+  {
+    id: 't5',
+    name: 'INOX: Madhupatna',
+    location: 'Madhupatna, Cuttack',
+    city: 'Cuttack',
+    shows: ['10:00 AM', '1:30 PM', '5:00 PM', '8:30 PM']
+  },
+  {
+    id: 't6',
+    name: 'Swosti Cineplex',
+    location: 'College Square, Cuttack',
+    city: 'Cuttack',
+    shows: ['9:30 AM', '12:30 PM', '3:30 PM', '6:30 PM', '9:30 PM']
+  },
+  {
+    id: 't7',
+    name: 'Urvashi Cinema Hall',
+    location: 'Badambadi, Cuttack',
+    city: 'Cuttack',
+    shows: ['10:00 AM', '2:00 PM', '6:00 PM', '9:00 PM']
+  },
+  // ── Rourkela ──
+  {
+    id: 't8',
+    name: 'PVR: City Centre Mall',
+    location: 'City Centre Mall, Rourkela',
+    city: 'Rourkela',
+    shows: ['10:30 AM', '2:00 PM', '5:30 PM', '9:00 PM']
+  },
+  {
+    id: 't9',
+    name: 'INOX: Steel City',
+    location: 'Udit Nagar, Rourkela',
+    city: 'Rourkela',
+    shows: ['10:00 AM', '1:30 PM', '5:00 PM', '8:30 PM']
+  },
+  {
+    id: 't10',
+    name: 'Jyoti Talkies',
+    location: 'Rourkela Main Road',
+    city: 'Rourkela',
+    shows: ['11:00 AM', '3:00 PM', '7:00 PM', '10:00 PM']
+  },
+  // ── Sambalpur ──
+  {
+    id: 't11',
+    name: 'Carnival Cinemas: V Square',
     location: 'V Square Mall, Sambalpur',
+    city: 'Sambalpur',
     shows: ['11:00 AM', '2:30 PM', '6:00 PM', '9:30 PM']
+  },
+  {
+    id: 't12',
+    name: 'Sagar Cineplex',
+    location: 'Ainthapali, Sambalpur',
+    city: 'Sambalpur',
+    shows: ['10:00 AM', '1:00 PM', '4:30 PM', '8:00 PM']
+  },
+  // ── Berhampur ──
+  {
+    id: 't13',
+    name: 'INOX: Berhampur Mall',
+    location: 'Berhampur Mall, Ganjam',
+    city: 'Berhampur',
+    shows: ['10:30 AM', '2:00 PM', '5:30 PM', '9:00 PM']
+  },
+  {
+    id: 't14',
+    name: 'Pushpagiri Cinema',
+    location: 'Main Road, Berhampur',
+    city: 'Berhampur',
+    shows: ['10:00 AM', '1:30 PM', '5:00 PM', '8:30 PM']
+  },
+  // ── Puri ──
+  {
+    id: 't15',
+    name: 'Puri Cineplex',
+    location: 'Grand Road, Puri',
+    city: 'Puri',
+    shows: ['10:00 AM', '2:00 PM', '6:00 PM', '9:00 PM']
+  },
+  {
+    id: 't16',
+    name: 'Sea View Talkies',
+    location: 'Marine Drive, Puri',
+    city: 'Puri',
+    shows: ['11:00 AM', '3:00 PM', '7:00 PM', '10:00 PM']
+  },
+  // ── Balasore ──
+  {
+    id: 't17',
+    name: 'Carnival Cinemas: Balasore',
+    location: 'Station Bazaar, Balasore',
+    city: 'Balasore',
+    shows: ['10:00 AM', '1:30 PM', '5:00 PM', '8:30 PM']
+  },
+  {
+    id: 't18',
+    name: 'Odeon Cinema',
+    location: 'Sahadevkhunta, Balasore',
+    city: 'Balasore',
+    shows: ['10:30 AM', '2:30 PM', '6:30 PM', '9:30 PM']
+  },
+  // ── Bhadrak ──
+  {
+    id: 't19',
+    name: 'Bhadrak Cineplex',
+    location: 'Charampa, Bhadrak',
+    city: 'Bhadrak',
+    shows: ['10:00 AM', '2:00 PM', '6:00 PM', '9:00 PM']
+  },
+  // ── Baripada ──
+  {
+    id: 't20',
+    name: 'Mayurbhanj Cinema',
+    location: 'Town Square, Baripada',
+    city: 'Baripada',
+    shows: ['10:30 AM', '2:30 PM', '6:30 PM', '9:30 PM']
+  },
+  // ── Jharsuguda ──
+  {
+    id: 't21',
+    name: 'City Cinemas: Jharsuguda',
+    location: 'Nehru Nagar, Jharsuguda',
+    city: 'Jharsuguda',
+    shows: ['10:00 AM', '1:30 PM', '5:00 PM', '8:30 PM']
+  },
+  // ── Angul ──
+  {
+    id: 't22',
+    name: 'Angul Multiplex',
+    location: 'Bus Stand Road, Angul',
+    city: 'Angul',
+    shows: ['11:00 AM', '3:00 PM', '7:00 PM', '10:00 PM']
+  },
+  // ── Dhenkanal ──
+  {
+    id: 't23',
+    name: 'Dhenkanal Cinema Hall',
+    location: 'Main Market, Dhenkanal',
+    city: 'Dhenkanal',
+    shows: ['10:00 AM', '2:00 PM', '6:00 PM', '9:00 PM']
+  },
+  // ── Kendrapara ──
+  {
+    id: 't24',
+    name: 'Kendrapara Cineplex',
+    location: 'College Road, Kendrapara',
+    city: 'Kendrapara',
+    shows: ['10:30 AM', '2:30 PM', '6:30 PM', '9:30 PM']
+  },
+  // ── Paradip ──
+  {
+    id: 't25',
+    name: 'Port City Cinema',
+    location: 'Industrial Area, Paradip',
+    city: 'Paradip',
+    shows: ['10:00 AM', '2:00 PM', '6:00 PM', '9:00 PM']
+  },
+  // ── Rayagada ──
+  {
+    id: 't26',
+    name: 'Rayagada Multiplex',
+    location: 'Station Road, Rayagada',
+    city: 'Rayagada',
+    shows: ['11:00 AM', '3:00 PM', '7:00 PM', '10:00 PM']
   }
 ];
 
 export const eventCategories = [
-  'Workshops',
-  'Music Shows',
-  'Comedy Shows',
-  'Meetups',
-  'Kids',
-  'Performances',
-  'Exhibitions',
-  'Screening',
-  'Conferences'
+  'Comedy Shows', 'Stand up Comedy', 'Dance', 'Concerts',
+  'Workshops', 'Music Shows', 'Meetups', 'Kids', 'Performances', 'Exhibitions'
+];
+
+export const playCategories = [
+  'Hindi Theatre', 'Odia Theatre', 'English Theatre', 'Musical', 'Jatra', 'Dance Drama'
 ];
 
 export const sportCategories = [
-  'Cricket',
-  'Running',
-  'Chess',
-  'Motorsports',
-  'Card Games',
-  'Basketball',
-  'Cycling',
-  'Mixed Martial Arts',
-  'Shooting'
+  'Cricket', 'Running', 'Chess', 'Motorsports', 'Card Games',
+  'Basketball', 'Cycling', 'Mixed Martial Arts', 'Shooting',
+  'Kabaddi', 'Football', 'Marathon'
 ];
 
-export const dateFilters = [
-  'Today',
-  'Tomorrow',
-  'This Weekend'
-];
+export const dateFilters = ['Today', 'Tomorrow', 'This Weekend'];
+
+export const sports: Sport[] = [];

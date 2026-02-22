@@ -35,10 +35,7 @@ export const router = createBrowserRouter([
       { path: "booking-confirmation", Component: BookingConfirmation },
       { path: "my-bookings", Component: MyBookings },
       { path: "search", Component: SearchResults },
+      { path: "signin", Component: SignIn },
     ],
-  },
-  {
-    path: "/signin",
-    Component: SignIn,
   },
 ]);

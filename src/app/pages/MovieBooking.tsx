@@ -1,17 +1,21 @@
 import { useParams, useNavigate } from 'react-router';
 import { useState, useEffect } from 'react';
-import { movies, theatres } from '../data/moviesData';
-import { ChevronRight, Star, Calendar } from 'lucide-react';
+import { movies, theatres, cities } from '../data/moviesData';
+import { ChevronRight, Star, MapPin, LogIn } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 
 export default function MovieBooking() {
   const { id } = useParams();
   const navigate = useNavigate();
   const movie = movies.find(m => m.id === id);
-  
+
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedTheatre, setSelectedTheatre] = useState<string>('');
   const [selectedShow, setSelectedShow] = useState<string>('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedCity, setSelectedCity] = useState<string>(
+    localStorage.getItem('selectedCity') || 'Bhubaneswar'
+  );
 
   // Generate next 7 days
   const dates = [];
@@ -27,10 +31,28 @@ export default function MovieBooking() {
   }
 
   useEffect(() => {
-    if (dates.length > 0) {
-      setSelectedDate(dates[0].date);
-    }
+    if (dates.length > 0) setSelectedDate(dates[0].date);
   }, []);
+
+  // Poll auth state every 500ms so banner updates immediately after sign-in redirect
+  useEffect(() => {
+    const check = () => setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true');
+    check();
+    const interval = setInterval(check, 500);
+    window.addEventListener('storage', check);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('storage', check);
+    };
+  }, []);
+
+  // Reset theatre/show when city changes
+  useEffect(() => {
+    setSelectedTheatre('');
+    setSelectedShow('');
+  }, [selectedCity]);
+
+  const filteredTheatres = theatres.filter(t => t.city === selectedCity);
 
   if (!movie) {
     return (
@@ -54,9 +76,14 @@ export default function MovieBooking() {
       return;
     }
 
+    // ── Auth check ──
+    if (!isLoggedIn) {
+      localStorage.setItem('redirectAfterLogin', `/movie/${id}`);
+      navigate('/signin');
+      return;
+    }
+
     const theatre = theatres.find(t => t.id === selectedTheatre);
-    
-    // Store booking details in localStorage
     const bookingDetails = {
       movieId: movie.id,
       movieTitle: movie.title,
@@ -72,17 +99,15 @@ export default function MovieBooking() {
     navigate(`/movie/${id}/seats`);
   };
 
-  const selectedCity = localStorage.getItem('selectedCity') || 'Bhubaneswar';
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Movie Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-[1400px] mx-auto px-4 py-4">
           <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-            <span>Home</span>
+            <span className="cursor-pointer hover:text-rose-600" onClick={() => navigate('/')}>Home</span>
             <ChevronRight size={16} />
-            <span>Movies</span>
+            <span className="cursor-pointer hover:text-rose-600" onClick={() => navigate('/movies')}>Movies</span>
             <ChevronRight size={16} />
             <span className="text-gray-900 font-medium">{movie.title}</span>
           </div>
@@ -107,9 +132,7 @@ export default function MovieBooking() {
               </div>
               <div className="flex flex-wrap gap-3 mb-3">
                 {movie.languages.map(lang => (
-                  <span key={lang} className="px-3 py-1 bg-gray-100 rounded-full text-sm">
-                    {lang}
-                  </span>
+                  <span key={lang} className="px-3 py-1 bg-gray-100 rounded-full text-sm">{lang}</span>
                 ))}
               </div>
               <div className="flex flex-wrap gap-2 text-sm text-gray-600 mb-2">
@@ -123,8 +146,31 @@ export default function MovieBooking() {
         </div>
       </div>
 
+      {/* Sign-in warning banner */}
+      {!isLoggedIn && (
+        <div className="max-w-[1400px] mx-auto px-4 pt-4">
+          <div className="flex items-center justify-between bg-amber-50 border border-amber-200 rounded-lg px-5 py-4">
+            <div className="flex items-center gap-3">
+              <LogIn size={20} className="text-amber-600" />
+              <p className="text-amber-800 font-medium">
+                You'll need to sign in before completing your booking
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                localStorage.setItem('redirectAfterLogin', `/movie/${id}`);
+                navigate('/signin');
+              }}
+              className="px-4 py-2 bg-rose-600 text-white rounded-md hover:bg-rose-700 transition text-sm font-semibold whitespace-nowrap"
+            >
+              Sign In
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Date Selection */}
-      <div className="bg-white border-b">
+      <div className="bg-white border-b mt-4">
         <div className="max-w-[1400px] mx-auto px-4 py-4">
           <div className="flex items-center gap-4 overflow-x-auto">
             {dates.map(d => (
@@ -146,55 +192,91 @@ export default function MovieBooking() {
         </div>
       </div>
 
+      {/* City Filter */}
+      <div className="bg-white border-b">
+        <div className="max-w-[1400px] mx-auto px-4 py-4">
+          <div className="flex items-center gap-2 mb-3">
+            <MapPin size={18} className="text-rose-600" />
+            <h2 className="font-semibold text-gray-800">Select City</h2>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {cities.map(city => (
+              <button
+                key={city}
+                onClick={() => setSelectedCity(city)}
+                className={`px-4 py-2 rounded-full text-sm border transition ${
+                  selectedCity === city
+                    ? 'bg-rose-600 border-rose-600 text-white'
+                    : 'border-rose-600 text-rose-600 hover:bg-rose-50'
+                }`}
+              >
+                {city}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Theatre and Show Selection */}
       <div className="max-w-[1400px] mx-auto px-4 py-6">
-        <h2 className="text-xl font-bold mb-4">Select Theatre & Show Time</h2>
+        <h2 className="text-xl font-bold mb-1">
+          Theatres in <span className="text-rose-600">{selectedCity}</span>
+        </h2>
+        <p className="text-sm text-gray-500 mb-4">
+          {filteredTheatres.length} theatre{filteredTheatres.length !== 1 ? 's' : ''} available
+        </p>
 
-        <div className="space-y-4">
-          {theatres.map(theatre => (
-            <div key={theatre.id} className="bg-white rounded-lg shadow-sm p-4">
-              <div className="flex items-start justify-between mb-3">
-                <div>
+        {filteredTheatres.length === 0 ? (
+          <div className="bg-white rounded-lg shadow-sm p-10 text-center text-gray-500">
+            <p className="text-lg font-medium">No theatres available in {selectedCity} yet.</p>
+            <p className="text-sm mt-1">Try selecting a nearby city.</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {filteredTheatres.map(theatre => (
+              <div key={theatre.id} className="bg-white rounded-lg shadow-sm p-4">
+                <div className="mb-3">
                   <h3 className="font-semibold text-lg">{theatre.name}</h3>
                   <p className="text-sm text-gray-600">{theatre.location}</p>
                 </div>
+                <div className="flex flex-wrap gap-3">
+                  {theatre.shows.map(show => (
+                    <button
+                      key={show}
+                      onClick={() => {
+                        setSelectedTheatre(theatre.id);
+                        setSelectedShow(show);
+                      }}
+                      className={`px-6 py-3 rounded-lg border-2 font-medium transition ${
+                        selectedTheatre === theatre.id && selectedShow === show
+                          ? 'border-rose-600 bg-rose-50 text-rose-600'
+                          : 'border-gray-300 hover:border-rose-300'
+                      }`}
+                    >
+                      {show}
+                    </button>
+                  ))}
+                </div>
               </div>
+            ))}
+          </div>
+        )}
 
-              <div className="flex flex-wrap gap-3">
-                {theatre.shows.map(show => (
-                  <button
-                    key={show}
-                    onClick={() => {
-                      setSelectedTheatre(theatre.id);
-                      setSelectedShow(show);
-                    }}
-                    className={`px-6 py-3 rounded-lg border-2 font-medium transition ${
-                      selectedTheatre === theatre.id && selectedShow === show
-                        ? 'border-rose-600 bg-rose-50 text-rose-600'
-                        : 'border-gray-300 hover:border-rose-300'
-                    }`}
-                  >
-                    {show}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Proceed Button */}
+        {/* Sticky Proceed Bar */}
         {selectedShow && (
           <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg p-4 z-40">
             <div className="max-w-[1400px] mx-auto flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Selected Show</p>
-                <p className="font-semibold">{selectedShow} at {theatres.find(t => t.id === selectedTheatre)?.name}</p>
+                <p className="font-semibold">
+                  {selectedShow} at {theatres.find(t => t.id === selectedTheatre)?.name}
+                </p>
               </div>
               <button
                 onClick={handleProceed}
                 className="px-8 py-3 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition font-semibold text-lg"
               >
-                Proceed to Seat Selection
+                {isLoggedIn ? 'Proceed to Seat Selection' : 'Sign In to Continue'}
               </button>
             </div>
           </div>

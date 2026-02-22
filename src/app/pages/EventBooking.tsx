@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { Calendar, MapPin, Clock, ChevronRight } from 'lucide-react';
+import { Calendar, MapPin, Clock, ChevronRight, LogIn } from 'lucide-react';
 import { events } from '../data/moviesData';
 import { storage } from '../utils/storage';
 
@@ -9,13 +9,17 @@ export default function EventBooking() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const event = events.find(e => e.id === id);
 
   useEffect(() => {
     if (!event) {
       navigate('/events');
+      return;
     }
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    setIsLoggedIn(loggedIn);
   }, [event, navigate]);
 
   const dates = ['Sat, 22 Feb', 'Sun, 23 Feb', 'Mon, 24 Feb', 'Tue, 25 Feb'];
@@ -27,12 +31,21 @@ export default function EventBooking() {
       return;
     }
 
+    // ── Require sign-in before proceeding ──
+    if (!isLoggedIn) {
+      localStorage.setItem('redirectAfterLogin', `/event/${id}`);
+      navigate('/signin');
+      return;
+    }
+
     const bookingData = {
       movieId: event!.id,
       movieTitle: event!.title,
       movieImage: event!.imageUrl,
       date: selectedDate,
       showTime: selectedTime,
+      theatre: event!.venue,          // BookingConfirmation reads "theatre"
+      theatreLocation: event!.category, // shows category as subtitle
       venue: event!.venue,
       price: event!.price
     };
@@ -49,9 +62,9 @@ export default function EventBooking() {
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex items-center gap-2 text-sm text-gray-600">
-            <span>Home</span>
+            <span className="cursor-pointer hover:text-rose-600" onClick={() => navigate('/')}>Home</span>
             <ChevronRight size={16} />
-            <span>Events</span>
+            <span className="cursor-pointer hover:text-rose-600" onClick={() => navigate('/events')}>Events</span>
             <ChevronRight size={16} />
             <span className="text-gray-900 font-medium">{event.title}</span>
           </div>
@@ -65,7 +78,7 @@ export default function EventBooking() {
             <img
               src={event.imageUrl}
               alt={event.title}
-              className="w-32 h-48 object-cover rounded-lg shadow-md"
+              className="w-32 h-32 object-cover rounded-lg shadow-md"
             />
             <div>
               <h1 className="text-3xl font-bold mb-2">{event.title}</h1>
@@ -85,7 +98,30 @@ export default function EventBooking() {
         </div>
       </div>
 
-      {/* Date Selection */}
+      {/* Sign-in warning banner */}
+      {!isLoggedIn && (
+        <div className="max-w-6xl mx-auto px-4 pt-6">
+          <div className="flex items-center justify-between bg-amber-50 border border-amber-200 rounded-lg px-5 py-4">
+            <div className="flex items-center gap-3">
+              <LogIn size={20} className="text-amber-600" />
+              <p className="text-amber-800 font-medium">
+                You'll need to sign in before completing your booking
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                localStorage.setItem('redirectAfterLogin', `/event/${id}`);
+                navigate('/signin');
+              }}
+              className="px-4 py-2 bg-rose-600 text-white rounded-md hover:bg-rose-700 transition text-sm font-semibold whitespace-nowrap"
+            >
+              Sign In
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Date & Time Selection */}
       <div className="max-w-6xl mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold mb-4">Select Date</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -104,7 +140,6 @@ export default function EventBooking() {
           ))}
         </div>
 
-        {/* Time Selection */}
         <h2 className="text-2xl font-bold mb-4">Select Time</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
           {times.map(time => (
@@ -125,7 +160,6 @@ export default function EventBooking() {
           ))}
         </div>
 
-        {/* Continue Button */}
         <div className="flex justify-end">
           <button
             onClick={handleContinue}
@@ -136,7 +170,7 @@ export default function EventBooking() {
                 : 'bg-gray-300 cursor-not-allowed'
             }`}
           >
-            Select Seats
+            {isLoggedIn ? 'Select Seats' : 'Sign In to Continue'}
           </button>
         </div>
       </div>

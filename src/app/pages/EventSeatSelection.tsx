@@ -8,27 +8,37 @@ export default function EventSeatSelection() {
   const navigate = useNavigate();
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [bookedSeats, setBookedSeats] = useState<string[]>([]);
+  const [currentBooking, setCurrentBooking] = useState<any>(null);
 
   const event = events.find(e => e.id === id);
-  const currentBooking = storage.getCurrentBooking();
 
   useEffect(() => {
-    if (!event || !currentBooking) {
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!loggedIn) {
+      localStorage.setItem('redirectAfterLogin', `/event/${id}`);
+      navigate('/signin');
+      return;
+    }
+
+    // Read booking inside useEffect so it's never stale
+    const booking = storage.getCurrentBooking();
+
+    if (!event || !booking) {
       navigate('/events');
       return;
     }
 
-    // Load booked seats from storage
+    setCurrentBooking(booking);
+
     const seats = storage.getSeats(id!);
     setBookedSeats(seats);
-  }, [event, currentBooking, id, navigate]);
+  }, [event, id, navigate]);
 
   const rows = ['A', 'B', 'C', 'D', 'E'];
   const seatsPerRow = 10;
 
   const handleSeatClick = (seat: string) => {
     if (bookedSeats.includes(seat)) return;
-
     if (selectedSeats.includes(seat)) {
       setSelectedSeats(selectedSeats.filter(s => s !== seat));
     } else {
@@ -40,20 +50,13 @@ export default function EventSeatSelection() {
     }
   };
 
-  const getSeatStatus = (seat: string) => {
-    if (bookedSeats.includes(seat)) return 'booked';
-    if (selectedSeats.includes(seat)) return 'selected';
-    return 'available';
-  };
-
   const getSeatColor = (seat: string) => {
-    const status = getSeatStatus(seat);
-    if (status === 'booked') return 'bg-red-500 cursor-not-allowed';
-    if (status === 'selected') return 'bg-yellow-400 hover:bg-yellow-500';
+    if (bookedSeats.includes(seat)) return 'bg-red-500 cursor-not-allowed';
+    if (selectedSeats.includes(seat)) return 'bg-yellow-400 hover:bg-yellow-500';
     return 'bg-green-500 hover:bg-green-600';
   };
 
-  const handleContinue = () => {
+  const handleProceedToPay = () => {
     if (selectedSeats.length === 0) {
       alert('Please select at least one seat');
       return;
@@ -62,11 +65,13 @@ export default function EventSeatSelection() {
     const ticketPrice = event!.price;
     const numberOfSeats = selectedSeats.length;
     const ticketsTotal = ticketPrice * numberOfSeats;
-    const convenienceFee = numberOfSeats * 50;
+    const convenienceFee = numberOfSeats * 30;
     const grandTotal = ticketsTotal + convenienceFee;
 
-    const updatedBooking = {
-      ...currentBooking!,
+    const confirmedBooking = {
+      ...currentBooking,
+      theatre: currentBooking.theatre || event!.venue,
+      theatreLocation: currentBooking.theatreLocation || event!.category,
       seats: selectedSeats,
       numberOfSeats,
       ticketPrice,
@@ -77,19 +82,15 @@ export default function EventSeatSelection() {
       bookingDate: new Date().toLocaleDateString('en-IN', {
         day: 'numeric',
         month: 'short',
-        year: 'numeric'
-      })
+        year: 'numeric',
+      }),
     };
 
-    // Save booking
-    storage.setConfirmedBooking(updatedBooking);
-    storage.addBooking(updatedBooking);
+    storage.setConfirmedBooking(confirmedBooking);
+    storage.addBooking(confirmedBooking);
 
-    // Update booked seats
     const updatedBookedSeats = [...bookedSeats, ...selectedSeats];
     storage.setSeats(id!, updatedBookedSeats);
-
-    // Clear current booking
     storage.clearCurrentBooking();
 
     navigate('/booking-confirmation');
@@ -97,29 +98,31 @@ export default function EventSeatSelection() {
 
   if (!event || !currentBooking) return null;
 
+  const totalAmount = event.price * selectedSeats.length + selectedSeats.length * 30;
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-6 text-center">{event.title}</h1>
+        <h1 className="text-3xl font-bold mb-2 text-center">{event.title}</h1>
         <p className="text-center text-gray-600 mb-8">
-          {currentBooking.date} | {currentBooking.showTime} | {currentBooking.venue}
+          {currentBooking.date} &nbsp;|&nbsp; {currentBooking.showTime} &nbsp;|&nbsp; {event.venue}
         </p>
 
-        {/* Screen */}
-        <div className="mb-12">
+        {/* Stage indicator */}
+        <div className="mb-10">
           <div className="w-full max-w-2xl mx-auto">
-            <div className="bg-gray-200 h-2 mb-4 rounded-full shadow-inner"></div>
-            <p className="text-center text-gray-500 text-sm">STAGE</p>
+            <div className="bg-gray-300 h-2 mb-2 rounded-full shadow-inner"></div>
+            <p className="text-center text-gray-500 text-sm tracking-widest">STAGE</p>
           </div>
         </div>
 
         {/* Seat Grid */}
-        <div className="bg-white rounded-lg p-8 mb-8 shadow-sm">
-          <div className="space-y-4">
+        <div className="bg-white rounded-xl p-6 md:p-8 mb-6 shadow-sm overflow-x-auto">
+          <div className="space-y-3 min-w-[480px]">
             {rows.map(row => (
               <div key={row} className="flex items-center gap-2">
-                <span className="w-8 font-semibold text-gray-700">{row}</span>
-                <div className="flex-1 flex justify-center gap-2">
+                <span className="w-6 font-semibold text-gray-700 text-sm">{row}</span>
+                <div className="flex-1 flex justify-center gap-1.5">
                   {Array.from({ length: seatsPerRow }, (_, i) => {
                     const seatNumber = `${row}${i + 1}`;
                     return (
@@ -127,9 +130,7 @@ export default function EventSeatSelection() {
                         key={seatNumber}
                         onClick={() => handleSeatClick(seatNumber)}
                         disabled={bookedSeats.includes(seatNumber)}
-                        className={`w-10 h-10 rounded-md transition-all ${getSeatColor(
-                          seatNumber
-                        )} text-white text-xs font-semibold`}
+                        className={`w-9 h-9 rounded-md transition-all ${getSeatColor(seatNumber)} text-white text-xs font-semibold`}
                       >
                         {i + 1}
                       </button>
@@ -157,26 +158,32 @@ export default function EventSeatSelection() {
           </div>
         </div>
 
-        {/* Selected Seats & Price */}
+        {/* Payment summary + Pay button */}
         {selectedSeats.length > 0 && (
-          <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <p className="text-gray-600">Selected Seats:</p>
-                <p className="font-semibold text-lg">{selectedSeats.join(', ')}</p>
+          <div className="bg-white rounded-xl p-6 shadow-sm">
+            <h3 className="font-bold text-lg mb-4">Order Summary</h3>
+            <div className="space-y-2 mb-4">
+              <div className="flex justify-between text-gray-600">
+                <span>Seats: {selectedSeats.join(', ')}</span>
               </div>
-              <div className="text-right">
-                <p className="text-gray-600">Total Amount:</p>
-                <p className="font-bold text-2xl text-rose-600">
-                  ₹{event.price * selectedSeats.length + selectedSeats.length * 50}
-                </p>
+              <div className="flex justify-between text-gray-600">
+                <span>Tickets ({selectedSeats.length} × ₹{event.price})</span>
+                <span>₹{event.price * selectedSeats.length}</span>
+              </div>
+              <div className="flex justify-between text-gray-600">
+                <span>Convenience Fee</span>
+                <span>₹{selectedSeats.length * 30}</span>
+              </div>
+              <div className="flex justify-between font-bold text-lg pt-2 border-t">
+                <span>Total</span>
+                <span className="text-rose-600">₹{totalAmount}</span>
               </div>
             </div>
             <button
-              onClick={handleContinue}
-              className="w-full py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-700 transition"
+              onClick={handleProceedToPay}
+              className="w-full py-3 bg-rose-600 text-white rounded-lg font-semibold hover:bg-rose-700 transition text-lg"
             >
-              Proceed to Pay
+              Proceed to Pay — ₹{totalAmount}
             </button>
           </div>
         )}
