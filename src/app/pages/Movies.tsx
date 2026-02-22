@@ -3,6 +3,7 @@ import { FilterSidebar } from '../components/FilterSidebar';
 import { MovieCard } from '../components/MovieCard';
 import { Carousel } from '../components/Carousel';
 import { movies, languages as allLanguages } from '../data/moviesData';
+import { ChevronRight } from 'lucide-react';
 
 export default function Movies() {
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
@@ -34,10 +35,20 @@ export default function Movies() {
     setSelectedCategories([]);
   };
 
+  const selectedCity = localStorage.getItem('selectedCity') || 'Bhubaneswar';
+
   return (
     <div className="max-w-[1400px] mx-auto px-4 py-6">
+      {/* Breadcrumb */}
+      <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+        <span>Home</span>
+        <ChevronRight size={16} />
+        <span className="text-gray-900 font-medium">Movies in {selectedCity}</span>
+      </div>
+
       {/* Language Filter Row */}
       <div className="mb-6 pb-4 border-b">
+        <h2 className="text-2xl font-bold mb-4">Movies in {selectedCity}</h2>
         <div className="flex items-center gap-2 flex-wrap">
           {allLanguages.map(language => (
             <button
@@ -72,7 +83,7 @@ export default function Movies() {
       {/* Featured Movies Carousel */}
       <div className="mb-8">
         <Carousel title="Coming Soon">
-          {movies.slice(0, 6).map(movie => (
+          {movies.map(movie => (
             <div key={movie.id} className="px-2">
               <MovieCard movie={movie} />
             </div>

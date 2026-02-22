@@ -38,8 +38,7 @@ export default function Home() {
       <div className="max-w-[1400px] mx-auto px-4 py-8">
         {/* Recommended Movies */}
         <Carousel title="Recommended Movies" showAll={() => navigate('/movies')}>
-          {movies.slice(0, 6).map(movie => (
-            // ✅ No extra wrapping div — Carousel handles padding internally
+          {movies.map(movie => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </Carousel>
@@ -58,56 +57,40 @@ export default function Home() {
           ))}
         </Carousel>
 
-        {/* Coming Soon */}
-        <div className="mt-10">
-          <h2 className="text-2xl font-bold mb-6">Coming Soon</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {movies.slice(6).map(movie => (
-              <MovieCard key={movie.id} movie={movie} />
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-8 mt-16">
         <div className="max-w-[1400px] mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="font-bold text-lg mb-4">Movies Now Showing</h3>
-              <ul className="space-y-2 text-gray-400">
-                {movies.slice(0, 4).map(movie => (
-                  <li key={movie.id}>{movie.title}</li>
-                ))}
-              </ul>
+              <h3 className="font-bold text-lg mb-4">MoviesVerse</h3>
+              <p className="text-gray-400">
+                Your one-stop destination for booking movies, events, plays, and sports across Odisha. 
+                Kyunki ghar pe baithke bhi scene set hona chahiye. 🎬
+              </p>
             </div>
             <div>
-              <h3 className="font-bold text-lg mb-4">Cities</h3>
+              <h3 className="font-bold text-lg mb-4">Explore</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>Bhubaneswar</li>
-                <li>Rourkela</li>
-                <li>Sambalpur</li>
-                <li>Cuttack</li>
+                <li><a href="/movies" className="hover:text-white transition">Movies</a></li>
+                <li><a href="/events" className="hover:text-white transition">Events</a></li>
+                <li><a href="/plays" className="hover:text-white transition">Plays</a></li>
+                <li><a href="/sports" className="hover:text-white transition">Sports</a></li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold text-lg mb-4">Help</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>About Us</li>
-                <li>Contact Us</li>
-                <li>Terms & Conditions</li>
-                <li>Privacy Policy</li>
+                <li className="hover:text-white transition cursor-pointer">About Us</li>
+                <li className="hover:text-white transition cursor-pointer">Contact Us</li>
+                <li className="hover:text-white transition cursor-pointer">Terms & Conditions</li>
+                <li className="hover:text-white transition cursor-pointer">Privacy Policy</li>
               </ul>
             </div>
-            <div>
-              <h3 className="font-bold text-lg mb-4">BookMyShow</h3>
-              <p className="text-gray-400">
-                India's largest online ticket booking platform for movies, events, plays, and sports.
-              </p>
-            </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            © 2026 BookMyShow. All rights reserved.
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+            Built by <span className="text-rose-400 font-semibold">Ashu</span> with thoda stress, bahut saari chai ☕, and just enough masti to survive. Hope you enjoy it — maine toh enjoy nahi kiya 😅
           </div>
         </div>
       </footer>
