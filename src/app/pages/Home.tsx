@@ -90,7 +90,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
-            Built by <span className="text-rose-400 font-semibold">Ashu</span> with thoda stress, bahut saari chai ☕, and just enough masti to survive. Hope you enjoy it {/*— maine toh enjoy nahi kiya 😅*/}
+            Built by <span className="text-rose-400 font-semibold">Ashu</span> with thoda stress, bahut saari chai ☕, and just enough masti to survive. Hope you enjoy it😅 {/*— maine toh enjoy nahi kiya 😅*/}
           </div>
         </div>
       </footer>
